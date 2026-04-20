@@ -604,14 +604,14 @@ function BlockCard({
       </button>
 
       <div className="flex items-center gap-2">
-        <EditableText value={item.text} onChange={onTextChange} className="font-bold text-sm text-black" isHighlighting={isHighlighting} tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz."} />
+        <EditableText value={item.text} onChange={onTextChange} className="font-bold text-sm text-black" isHighlighting={isHighlighting} tooltipText={"Tıklayarak düzenleyebilirsiniz"} />
         <div className="ml-auto shrink-0">
           <EditableText
             value={item.score ?? "Puanı :\u00A0\u00A0\u00A0\u00A0\u00A0"}
             onChange={onScoreChange}
             className="text-xs text-gray-500 font-semibold text-right whitespace-nowrap"
             isHighlighting={isHighlighting}
-            tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz."}
+            tooltipText={"Tıklayarak düzenleyebilirsiniz"}
           />
         </div>
       </div>
@@ -1526,9 +1526,9 @@ export default function A4Template() {
               onMouseEnter={() => setIsHighlighting(true)}
               onMouseLeave={() => setIsHighlighting(false)}
             >
-              Bölümleri gör
+              O bölümleri gör
             </span>
-            ). Üye olmadan <strong>resim yükleme, resim kırma, resimlerdeki soruları otomatik olarak yazıya dönüştüme</strong>, pdf alma işlemleri yapabilirsiniz. <p style={{ display: 'none' }}>.....</p>
+            ). Çizgileri kalınlaştırabilir, soru alanını daraltabilirsiniz. <strong>Yükleyeceğiniz resimlerdeki soruları otomatik olarak yazıya dönüştürebilirsiniz.</strong>
           </p>
         </div>
       )}
