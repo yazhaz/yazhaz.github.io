@@ -368,7 +368,7 @@ function ImageUploader({ src, onChange, height, isHighlighting = false, onImageL
     <>
       <div
         className={`relative overflow-hidden bg-white print:bg-white border border-dashed border-zinc-300 group/imgarea:hover:border-zinc-500 flex items-start justify-center transition-colors duration-200 ${isHighlighting ? "highlight-active" : ""}`}
-        style={{ height: src ? Math.max(height, imgNaturalHeight || 0) : height }}
+        style={{ minHeight: height }}
       >
         {src && <img src={src} className="w-full h-auto max-h-full object-contain" alt="Yüklenen görsel" />}
 
@@ -750,9 +750,13 @@ function BlockCard({
         open={cropModalOpen}
         imageSrc={tempImageSrc}
         onClose={() => setCropModalOpen(false)}
-        onCropComplete={(res, height) => {
+        onCropComplete={(res, width, height) => {
           onImageChange(res);
-          const finalHeight = Math.max(height || 160, 160);
+          const targetWidth = 343;
+          const safeWidth = width || 1;
+          const safeHeight = height || 160;
+          const proportionalHeight = Math.round((safeHeight / safeWidth) * targetWidth);
+          const finalHeight = Math.max(proportionalHeight, 80);
           setBlockHeight(finalHeight);
           onHeightChange(finalHeight);
           setCropModalOpen(false);
