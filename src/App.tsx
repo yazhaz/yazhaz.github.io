@@ -4,7 +4,7 @@ import { FeedbackButton } from "@/components/FeedbackButton";
 
 function App() {
   return (
-    <main className="min-h-screen w-full flex flex-col">
+    <main className="min-h-screen w-full flex flex-col" >
       <MobileWarning />
      	<A4Template />
     </main>
