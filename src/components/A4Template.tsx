@@ -521,7 +521,7 @@ function CompactImageUploader({ onImageChange, isHighlighting = false, className
 
   return (
     <div
-      className={`relative group w-full block border border-transparent hover:border-red-600 rounded-none print:hidden ${isHighlighting ? "" : "transition-colors duration-150"} ${className}`}
+      className={`relative group w-full block border border-transparent rounded-none print:hidden ${isHighlighting ? "" : "transition-colors duration-150"} ${className}`}
       style={isHighlighting ? { transition: 'none' } : undefined}
     >
       <div
