@@ -416,7 +416,7 @@ function LogoUploader({ src, onChange, isHighlighting = false }: LogoUploaderPro
           style={isHighlighting ? { transition: 'none' } : undefined}
         >
           <Undo2 className="size-3 text-white font-bold" style={{ filter: "drop-shadow(0 0 1px rgba(255,255,255,0.8))" }} />
-          <span className="whitespace-nowrap">MEB Logo</span>
+          <span className="whitespace-nowrap">Kaldır</span>
         </button>
       )}
 
