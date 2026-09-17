@@ -852,7 +852,10 @@ isHighlighting={isHighlighting}
         <Tooltip open={showResizeTooltip}>
           <TooltipTrigger asChild>
             <div
-              className="no-print h-2 w-full cursor-s-resize bg-zinc-100 hover:bg-zinc-300 transition-colors duration-150 rounded-b print:hidden flex items-center justify-center group/resize"
+              className={`no-print h-2 w-full cursor-s-resize bg-zinc-100 hover:bg-zinc-300 border border-transparent rounded-b print:hidden flex items-center justify-center group/resize ${
+                isHighlighting ? "highlight-active" : "transition-colors duration-150"
+              }`}
+              style={isHighlighting ? { transition: 'none' } : undefined}
               onMouseDown={handleResizeStart}
               onMouseEnter={() => setShowResizeTooltip(true)}
               onMouseLeave={() => setShowResizeTooltip(false)}
