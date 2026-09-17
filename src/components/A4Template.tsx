@@ -833,18 +833,17 @@ isHighlighting={isHighlighting}
      />
    )}
 
-      {/* Soru İçeriği (Yazı Altta) - Yazıcı/PDF'de sadece metin varsa göster */}
+      {/* Soru İçeriği (Yazı Altta) */}
       {item.content && item.content.trim() && (
-        <div
-          className={`no-print h-2 w-full cursor-s-resize bg-zinc-100 hover:bg-zinc-300 rounded-b print:hidden flex items-center justify-center group/resize ${
-            isHighlighting ? "highlight-active" : "transition-colors duration-150"
-          }`}
-          style={isHighlighting ? { transition: 'none' } : undefined}
-          onMouseDown={handleResizeStart}
-          onMouseEnter={() => setShowResizeTooltip(true)}
-          onMouseLeave={() => setShowResizeTooltip(false)}
-        >
-          <div className="w-12 h-0.5 bg-zinc-300 group-hover/resize:bg-zinc-400 rounded-full" />
+        <div className="px-1 pb-1">
+          <EditableText
+            value={item.content}
+            onChange={onContentChange}
+            className="text-sm text-black"
+            isHighlighting={isHighlighting}
+            tooltipText={"Tıklayarak düzenleyebilirsiniz"}
+            tooltipSide={columnSide === 'left' ? 'left' : 'right'}
+          />
         </div>
       )}
 
@@ -853,12 +852,7 @@ isHighlighting={isHighlighting}
         <Tooltip open={showResizeTooltip}>
           <TooltipTrigger asChild>
             <div
-              className={`no-print h-2 w-full cursor-s-resize rounded-b print:hidden flex items-center justify-center group/resize ${
-  isHighlighting
-    ? "highlight-active"
-    : "bg-zinc-100 hover:bg-zinc-300 transition-colors duration-150"
-}`}
-              style={isHighlighting ? { transition: 'none' } : undefined}
+              className="no-print h-2 w-full cursor-s-resize bg-zinc-100 hover:bg-zinc-300 transition-colors duration-150 rounded-b print:hidden flex items-center justify-center group/resize"
               onMouseDown={handleResizeStart}
               onMouseEnter={() => setShowResizeTooltip(true)}
               onMouseLeave={() => setShowResizeTooltip(false)}
@@ -871,7 +865,6 @@ isHighlighting={isHighlighting}
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-
       {/* Kırpma Modal */}
       <ImageCropperModal
         open={cropModalOpen}
