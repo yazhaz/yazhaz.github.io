@@ -1911,7 +1911,7 @@ export default function A4Template() {
           <div className="py-6 text-base text-zinc-800 font-medium leading-relaxed text-center">
             Sayfada yaptığınız değişiklikler ve yüklediğiniz resimler 3 gün boyunca tarayıcınızın hafızasında kayıtlı kalacaktır. <br/>
             Yanlışlıkla sayfanın yenilenmesi veya tarayıcınızı kapatmanız durumunda yaptıklarınızın kaybolmaması için 3 gün saklama özelliği eklenmiştir.<br/><br/>
-            Çalıştığınız bilgisayar herkese açık bir bilgisayarsa ayrılmadan mutlaka "<strong className="text-red-600 font-extrabold px-1">Değişiklikleri sıfırla</strong" butonuna tıklayınız!
+            Çalıştığınız bilgisayar herkese açık bir bilgisayarsa ayrılmadan mutlaka "<strong className="text-red-600 font-extrabold px-1">Değişiklikleri sıfırla</strong"> butonuna tıklayınız!
           </div>
           <DialogFooter className="mt-6 flex sm:justify-center w-full">
             <Button onClick={() => setShowWarningModal(false)} className="rounded-none bg-slate-700 hover:bg-slate-600 text-white cursor-pointer px-8 py-4 text-base font-bold w-auto">
