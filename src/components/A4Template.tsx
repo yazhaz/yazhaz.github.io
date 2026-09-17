@@ -847,36 +847,26 @@ isHighlighting={isHighlighting}
         </div>
       )}
 
-      {/* Resize Handle - EditableText Mimarisi (Kusursuz Animasyon) */}
+      {/* Resize Handle - Overlay (Bağımsız Katman) Yöntemi */}
       <TooltipProvider>
         <Tooltip open={showResizeTooltip}>
           <TooltipTrigger asChild>
-            {/* 1. Dış İskelet (EditableText ile aynı border ve geçiş yapısı) */}
             <div
-              className={`relative group/resizer w-full block border border-transparent hover:border-red-600 rounded-b print:hidden ${
-                isHighlighting ? "" : "transition-colors duration-150"
-              }`}
-              style={isHighlighting ? { transition: 'none' } : undefined}
+              className="relative no-print h-2 w-full cursor-s-resize bg-zinc-100 hover:bg-zinc-300 transition-colors duration-150 rounded-b print:hidden flex items-center justify-center group/resize"
               onMouseDown={handleResizeStart}
               onMouseEnter={() => setShowResizeTooltip(true)}
               onMouseLeave={() => setShowResizeTooltip(false)}
             >
-              {/* 2. İç Animasyon Alanı (Efekt anında geçişler ve arka plan tamamen iptal edilir) */}
-              <div
-                className={`no-print h-2 w-full cursor-s-resize flex items-center justify-center outline-none ${
-                  isHighlighting 
-                    ? "highlight-active bg-transparent" 
-                    : "bg-zinc-100 group-hover/resizer:bg-zinc-300 transition-colors duration-150"
-                }`}
-                style={isHighlighting ? { transition: 'none' } : undefined}
-              >
-                {/* 3. İç Çizgi (Animasyon anında gizlenir, normalde görünür) */}
-                <div className={`w-12 h-0.5 rounded-full ${
-                  isHighlighting 
-                    ? "bg-transparent" 
-                    : "bg-zinc-300 group-hover/resizer:bg-zinc-400 transition-colors duration-150"
-                }`} />
-              </div>
+              {/* Stabil Fiziksel İç Çizgi */}
+              <div className="w-12 h-0.5 bg-zinc-300 group-hover/resize:bg-zinc-400 transition-colors duration-150 rounded-full" />
+              
+              {/* Sadece Vurgu Anında Çıkan İzole Animasyon Katmanı */}
+              {isHighlighting && (
+                <div 
+                  className="absolute inset-0 highlight-active pointer-events-none" 
+                  style={{ transition: 'none' }} 
+                />
+              )}
             </div>
           </TooltipTrigger>
           <TooltipContent side="bottom" className="text-center bg-red-600 border-red-600 text-white px-3 py-[10px] shadow-lg rounded-none">
