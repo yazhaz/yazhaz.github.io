@@ -847,20 +847,25 @@ isHighlighting={isHighlighting}
         </div>
       )}
 
-      {/* Resize Handle - Always visible for prep layout */}
+      {/* Resize Handle - EditableText Mimarisi */}
       <TooltipProvider>
         <Tooltip open={showResizeTooltip}>
           <TooltipTrigger asChild>
             <div
-              className={`no-print h-2 w-full cursor-s-resize bg-zinc-100 hover:bg-zinc-300 border border-transparent rounded-b print:hidden flex items-center justify-center group/resize ${
-                isHighlighting ? "highlight-active" : "transition-colors duration-150"
-              }`}
+              className={`relative w-full block border border-transparent rounded-b print:hidden ${isHighlighting ? "" : "transition-colors duration-150"}`}
               style={isHighlighting ? { transition: 'none' } : undefined}
               onMouseDown={handleResizeStart}
               onMouseEnter={() => setShowResizeTooltip(true)}
               onMouseLeave={() => setShowResizeTooltip(false)}
             >
-              <div className="w-12 h-0.5 bg-zinc-300 group-hover/resize:bg-zinc-400 rounded-full" />
+              <div
+                className={`no-print h-2 w-full cursor-s-resize bg-zinc-100 hover:bg-zinc-300 flex items-center justify-center group/resize outline-none ${
+                  isHighlighting ? "highlight-active" : ""
+                }`}
+                style={isHighlighting ? { transition: 'none' } : undefined}
+              >
+                <div className="w-12 h-0.5 bg-zinc-300 group-hover/resize:bg-zinc-400 rounded-full" />
+              </div>
             </div>
           </TooltipTrigger>
           <TooltipContent side="bottom" className="text-center bg-red-600 border-red-600 text-white px-3 py-[10px] shadow-lg rounded-none">
