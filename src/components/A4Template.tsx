@@ -852,21 +852,16 @@ isHighlighting={isHighlighting}
         <Tooltip open={showResizeTooltip}>
           <TooltipTrigger asChild>
             <div
-              className="relative no-print h-2 w-full cursor-s-resize bg-zinc-100 hover:bg-zinc-300 transition-colors duration-150 rounded-b print:hidden flex items-center justify-center group/resize"
+              className={`relative no-print h-2 w-full cursor-s-resize bg-zinc-100 rounded-b print:hidden flex items-center justify-center group/resize ${
+                isHighlighting ? "highlight-active" : "transition-colors duration-150"
+              }`}
               onMouseDown={handleResizeStart}
               onMouseEnter={() => setShowResizeTooltip(true)}
               onMouseLeave={() => setShowResizeTooltip(false)}
+              style={isHighlighting ? { transition: 'none' } : undefined}
             >
               {/* Stabil Fiziksel İç Çizgi */}
-              <div className="w-12 h-0.5 bg-zinc-300 group-hover/resize:bg-zinc-400 transition-colors duration-150 rounded-full" />
-              
-              {/* Sadece Vurgu Anında Çıkan İzole Animasyon Katmanı */}
-              {isHighlighting && (
-                <div 
-                  className="absolute inset-0 highlight-active pointer-events-none" 
-                  style={{ transition: 'none' }} 
-                />
-              )}
+              <div className={`w-12 h-0.5 bg-zinc-300 rounded-full ${isHighlighting ? "" : "group-hover/resize:bg-zinc-400 transition-colors duration-150"}`} />
             </div>
           </TooltipTrigger>
           <TooltipContent side="bottom" className="text-center bg-red-600 border-red-600 text-white px-3 py-[10px] shadow-lg rounded-none">
