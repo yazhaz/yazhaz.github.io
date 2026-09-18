@@ -152,7 +152,6 @@ interface EditableTextProps {
   value: string;
   onChange: (val: string) => void;
   className?: string;
-  isHighlighting?: boolean;
   tooltipText?: string;
   tooltipSide?: "left" | "right";
 }
@@ -166,7 +165,7 @@ const sanitizeHTML = (html: string): string => {
     .replace(/\son\w+='[^']*'/gi, "");
 };
 
-function EditableText({ value, onChange, className = "", isHighlighting = false, tooltipText, tooltipSide = "left" }: EditableTextProps) {
+function EditableText({ value, onChange, className = "", tooltipText, tooltipSide = "left" }: EditableTextProps) {
   const [editing, setEditing] = useState(false);
   const divRef = useRef<HTMLDivElement>(null);
   const localEditRef = useRef(false);
@@ -220,7 +219,7 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
   };
 
   return (
-    <div className="relative w-full block border rounded-none print:border-0 border-transparent"
+    <div className="relative group w-full block border border-transparent hover:border-red-600 rounded-none print:border-0 transition-colors duration-150"
       onMouseEnter={() => {
         if (tooltipText) {
           setShowTooltip(true);
@@ -313,7 +312,7 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
           commitContent();
         }}
         className={[
-          "cursor-text whitespace-pre-wrap text-black outline-none w-full block",
+          "cursor-text whitespace-pre-wrap text-black outline-none w-full block transition-all",
           editing ? "ring-2 ring-zinc-300 print:ring-0" : "",
           className,
         ]
@@ -338,10 +337,9 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
 interface LogoUploaderProps {
   src: string;
   onChange: (val: string) => void;
-  isHighlighting?: boolean;
 }
 
-function LogoUploader({ src, onChange, isHighlighting = false }: LogoUploaderProps) {
+function LogoUploader({ src, onChange }: LogoUploaderProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [showTooltip, setShowTooltip] = useState(false);
   const [showErrorTooltip, setShowErrorTooltip] = useState(false);
@@ -393,23 +391,22 @@ function LogoUploader({ src, onChange, isHighlighting = false }: LogoUploaderPro
 
   return (
     <div 
-  className="w-20 h-20 flex-shrink-0 flex items-center justify-center relative group/logo cursor-pointer"
-  onMouseEnter={() => setShowTooltip(true)}
-  onMouseLeave={() => setShowTooltip(false)}
-  onClick={handleClick}
->
-  <img 
-    src={src || defaultLogo} 
-    alt="MEB Logo" 
-    className="w-full h-full object-contain group-hover/logo:border-2 group-hover/logo:border-dashed group-hover/logo:border-[#cad5e2]"
-  />
+      className="w-20 h-20 flex-shrink-0 flex items-center justify-center relative group/logo cursor-pointer"
+      onMouseEnter={() => setShowTooltip(true)}
+      onMouseLeave={() => setShowTooltip(false)}
+      onClick={handleClick}
+    >
+      <img 
+        src={src || defaultLogo} 
+        alt="MEB Logo" 
+        className="w-full h-full object-contain group-hover/logo:border-2 group-hover/logo:border-dashed group-hover/logo:border-[#cad5e2]" 
+      />
 
       {/* Reset Butonu - Sadece özel logo yüklendiğinde göster - hover'da görünür */}
       {src && (
         <button
           onClick={handleReset}
-          className={`print:hidden absolute top-0 left-0 z-30 opacity-0 group-hover/logo:opacity-100 flex items-center justify-center gap-1 bg-red-600 hover:bg-red-700 text-white h-5 text-xs cursor-pointer w-full${isHighlighting ? "" : " transition-opacity"}`}
-          style={isHighlighting ? { transition: 'none' } : undefined}
+          className="print:hidden absolute top-0 left-0 z-30 opacity-0 group-hover/logo:opacity-100 flex items-center justify-center gap-1 bg-red-600 hover:bg-red-700 text-white h-5 text-xs cursor-pointer w-full transition-opacity"
         >
           <Undo2 className="size-3 text-white font-bold" style={{ filter: "drop-shadow(0 0 1px rgba(255,255,255,0.8))" }} />
           <span className="whitespace-nowrap">Kaldır</span>
@@ -453,11 +450,10 @@ interface ImageUploaderProps {
   src: string;
   onChange: (val: string | ArrayBuffer | null) => void;
   height: number;
-  isHighlighting?: boolean;
   onImageLoadComplete?: () => void;
 }
 
-function ImageUploader({ src, onChange, height, isHighlighting = false, onImageLoadComplete }: ImageUploaderProps) {
+function ImageUploader({ src, onChange, height, onImageLoadComplete }: ImageUploaderProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [tempSrc, setTempSrc] = useState<string>("");
@@ -465,9 +461,9 @@ function ImageUploader({ src, onChange, height, isHighlighting = false, onImageL
   return (
     <>
       <div
-  className="relative overflow-hidden bg-white print:bg-white border border-dashed border-zinc-300 flex items-start justify-center"
-  style={{ ...({ height: height } as React.CSSProperties), ...(isHighlighting ? { transition: 'none' } as React.CSSProperties : {}) }}
->
+        className="relative overflow-hidden bg-white print:bg-white border border-dashed border-zinc-300 group/imgarea:hover:border-zinc-500 flex items-start justify-center transition-colors duration-150"
+        style={{ height: height }}
+      >
         {src && <img src={src} className="w-full h-auto max-h-full object-contain" alt="Yüklenen görsel" />}
 
         <input
@@ -505,30 +501,24 @@ function ImageUploader({ src, onChange, height, isHighlighting = false, onImageL
 /** Basit, kompakt resim yükleme butonu (A4 alanından tasarruf için) */
 interface CompactImageUploaderProps {
   onImageChange: (val: string | ArrayBuffer | null, width?: number, height?: number) => void;
-  isHighlighting?: boolean;
   className?: string;
   onImageLoadComplete?: () => void;
 }
 
-function CompactImageUploader({ onImageChange, isHighlighting = false, className = "", onImageLoadComplete }: CompactImageUploaderProps) {
+function CompactImageUploader({ onImageChange, className = "", onImageLoadComplete }: CompactImageUploaderProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [tempSrc, setTempSrc] = useState<string>("");
 
   return (
-    <div
-      className={`relative group w-full block border border-transparent rounded-none print:hidden ${isHighlighting ? "" : "transition-colors duration-150"} ${className}`}
-      style={isHighlighting ? { transition: 'none' } : undefined}
-    >
+    <div className={`relative group w-full block border border-transparent rounded-none print:hidden transition-colors duration-150 ${className}`}>
       <div
-  onClick={() => inputRef.current?.click()}
-  className="w-full min-h-[200px] flex flex-col items-center justify-center bg-slate-50/50 border-2 border-dashed border-slate-300 cursor-pointer"
-  style={isHighlighting ? { transition: 'none' } : undefined}
->
+        onClick={() => inputRef.current?.click()}
+        className="w-full min-h-[200px] flex flex-col items-center justify-center bg-slate-50/50 border-2 border-dashed border-slate-300 hover:border-slate-400 hover:bg-slate-100/50 cursor-pointer transition-colors duration-150"
+      >
         <Button
           size="sm"
-          className={`${UPLOAD_BTN_BG} ${UPLOAD_BTN_HOVER} text-white border-transparent cursor-pointer rounded-none gap-2 px-6 h-10 shadow-sm opacity-100${isHighlighting ? "" : " transition-colors duration-150"} upload-btn`}
-          style={isHighlighting ? { transition: 'none' } : undefined}
+          className={`${UPLOAD_BTN_BG} ${UPLOAD_BTN_HOVER} text-white border-transparent cursor-pointer rounded-none gap-2 px-6 h-10 shadow-sm opacity-100 transition-colors duration-150 upload-btn`}
         >
           <Upload className="size-4" />
           Soru yükle
@@ -596,7 +586,6 @@ interface BlockCardProps {
   onOCR: () => void;
   onRemove: () => void;
   maxImageHeight: number;
-  isHighlighting?: boolean;
   columnSide: 'left' | 'right';
 }
 
@@ -611,7 +600,6 @@ function BlockCard({
   onOCR,
   onRemove,
   maxImageHeight,
-  isHighlighting = false,
   columnSide,
 }: BlockCardProps) {
   const [blockHeight, setBlockHeight] = useState<number>(item.height ?? DEFAULT_IMAGE_HEIGHT);
@@ -695,11 +683,11 @@ function BlockCard({
   };
 
   return (
-   <div ref={cardRef} className={`relative group/block bg-white border border-zinc-200 px-3 py-[5px] flex flex-col gap-2 print:border-zinc-200 ${removing ? "overflow-hidden block-removing" : "overflow-visible"} ${!item.content && !item.image ? "print:hidden preview-hidden" : ""} ${!item.content && !item.image && !item.text ? "preview-hidden-empty" : ""}`}>
+    <div ref={cardRef} className={`relative group/block bg-white border border-zinc-200 hover:border-red-600 px-3 py-[5px] flex flex-col gap-2 print:border-zinc-200 ${removing ? "overflow-hidden block-removing" : "overflow-visible transition-colors duration-150"} ${!item.content && !item.image ? "print:hidden preview-hidden" : ""} ${!item.content && !item.image && !item.text ? "preview-hidden-empty" : ""}`}>
       {/* Bloku Kaldır - Sol alt köşe, hover'da görünür */}
       <button
         onClick={handleRemove}
-className="print:hidden absolute z-20 opacity-0 group-hover/block:opacity-100 transition-opacity duration-200 flex items-center bg-red-600 border-l border-t border-red-700 text-white hover:bg-red-700 h-6 px-2 cursor-pointer"
+        className="print:hidden absolute z-20 opacity-0 group-hover/block:opacity-100 transition-opacity duration-200 flex items-center bg-red-600 border-l border-t border-red-700 text-white hover:bg-red-700 h-6 px-2 cursor-pointer"
         style={{ right: 0, bottom: 0 }}
       >
         <X className="size-4" />
@@ -707,13 +695,12 @@ className="print:hidden absolute z-20 opacity-0 group-hover/block:opacity-100 tr
       </button>
 
       <div className="flex items-center gap-2">
-        <EditableText value={item.text} onChange={onTextChange} className="font-bold text-sm text-black"  tooltipText={"Tıklayarak düzenleyebilirsiniz"} tooltipSide={columnSide === 'left' ? 'left' : 'right'} />
+        <EditableText value={item.text} onChange={onTextChange} className="font-bold text-sm text-black" tooltipText={"Tıklayarak düzenleyebilirsiniz"} tooltipSide={columnSide === 'left' ? 'left' : 'right'} />
         <div className="ml-auto shrink-0">
           <EditableText
             value={item.score ?? "Puanı :\u00A0\u00A0\u00A0\u00A0\u00A0"}
             onChange={onScoreChange}
             className="text-xs text-gray-500 font-semibold text-right whitespace-nowrap"
-
             tooltipText={"Tıklayarak düzenleyebilirsiniz"}
             tooltipSide={columnSide === 'left' ? 'left' : 'right'}
           />
@@ -801,7 +788,7 @@ className="print:hidden absolute z-20 opacity-0 group-hover/block:opacity-100 tr
                 <span className="font-semibold text-xs">Resmi düzenle</span>
               </button>
             )}
-            <ImageUploader key={blockHeight} src={item.image} onChange={onImageChange} height={blockHeight}  onImageLoadComplete={() => setShowMenu(true)} />
+            <ImageUploader key={blockHeight} src={item.image} onChange={onImageChange} height={blockHeight} onImageLoadComplete={() => setShowMenu(true)} />
             {isOCRProcessing && (
               <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] flex flex-col items-center justify-center gap-2 z-10">
                 <Loader2 className="size-6 animate-spin text-slate-600" />
@@ -825,7 +812,6 @@ className="print:hidden absolute z-20 opacity-0 group-hover/block:opacity-100 tr
         onHeightChange(finalHeight);
        }
       }} 
-       
       onImageLoadComplete={() => setShowMenu(true)} 
      />
    )}
@@ -837,7 +823,6 @@ className="print:hidden absolute z-20 opacity-0 group-hover/block:opacity-100 tr
             value={item.content}
             onChange={onContentChange}
             className="text-sm text-black"
-            
             tooltipText={"Tıklayarak düzenleyebilirsiniz"}
             tooltipSide={columnSide === 'left' ? 'left' : 'right'}
           />
@@ -849,14 +834,13 @@ className="print:hidden absolute z-20 opacity-0 group-hover/block:opacity-100 tr
         <Tooltip open={showResizeTooltip}>
           <TooltipTrigger asChild>
             <div
-              className="relative no-print h-2 w-full cursor-s-resize bg-zinc-100 border border-transparent rounded-b print:hidden flex items-center justify-center group/resize"
+              className="relative no-print h-2 w-full cursor-s-resize bg-zinc-100 border border-transparent rounded-b print:hidden flex items-center justify-center group/resize transition-colors duration-150"
               onMouseDown={handleResizeStart}
               onMouseEnter={() => setShowResizeTooltip(true)}
               onMouseLeave={() => setShowResizeTooltip(false)}
-              style={isHighlighting ? { transition: 'none' } : undefined}
             >
               {/* Başlıkların kullandığı highlight-pulse-glow animasyonu bu elemana uygulanır. */}
-              <div className={`w-12 h-0.5 bg-zinc-300 rounded-full ${isHighlighting ? "" : ""}`} />
+              <div className="w-12 h-0.5 bg-zinc-300 rounded-full group-hover/resize:bg-zinc-400 transition-colors duration-150" />
             </div>
           </TooltipTrigger>
           <TooltipContent side="bottom" className="text-center bg-red-600 border-red-600 text-white px-3 py-[10px] shadow-lg rounded-none">
@@ -905,7 +889,6 @@ interface ColumnProps {
   onOCR: (index: number) => void;
   maxImageHeight: number;
   trailingContent?: React.ReactNode;
-  isHighlighting?: boolean;
   resetCounter: number;
   columnSide: 'left' | 'right';
 }
@@ -920,7 +903,6 @@ function Column({
   onOCR,
   maxImageHeight,
   trailingContent,
-  isHighlighting = false,
   resetCounter,
   columnSide,
 }: ColumnProps) {
@@ -940,7 +922,6 @@ function Column({
             onOCR={() => onOCR(i)}
             onRemove={() => onRemove(i)}
             maxImageHeight={maxImageHeight}
-            
             columnSide={columnSide}
           />
         </React.Fragment>
@@ -1610,7 +1591,6 @@ export default function A4Template() {
             <LogoUploader
               src={data.headerLogo}
               onChange={(val) => setData((prev) => ({ ...prev, headerLogo: val }))}
-              
             />
 
             <div className="flex-1 flex flex-col items-start gap-1">
@@ -1618,7 +1598,6 @@ export default function A4Template() {
                 value={data.headerTitle}
                 onChange={(val) => setData((prev) => ({ ...prev, headerTitle: val }))}
                 className="text-xl font-bold text-black leading-tight w-full"
-                
                 tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz."}
                 tooltipSide="left"
               />
@@ -1626,7 +1605,6 @@ export default function A4Template() {
                 value={data.headerSchool}
                 onChange={(val) => setData((prev) => ({ ...prev, headerSchool: val }))}
                 className="text-xl font-semibold text-black leading-tight w-full"
-                
                 tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz."}
                 tooltipSide="left"
               />
@@ -1660,7 +1638,6 @@ export default function A4Template() {
               onUpdate={(i, key, val) => updateColumnBlock("page1", "left", i, key, val)}
               onOCR={(i) => handleOCR("page1", "left", i)}
               maxImageHeight={a4MaxImageHeight}
-              
               resetCounter={resetCounter}
               columnSide="left"
             />
@@ -1673,7 +1650,6 @@ export default function A4Template() {
               onUpdate={(i, key, val) => updateColumnBlock("page1", "right", i, key, val)}
               onOCR={(i) => handleOCR("page1", "right", i)}
               maxImageHeight={a4MaxImageHeight}
-              
               resetCounter={resetCounter}
               columnSide="right"
             />
@@ -1719,7 +1695,6 @@ export default function A4Template() {
               onUpdate={(i, key, val) => updateColumnBlock("page2", "left", i, key, val)}
               onOCR={(i) => handleOCR("page2", "left", i)}
               maxImageHeight={a4MaxImageHeight}
-              
               resetCounter={resetCounter}
               columnSide="left"
             />
@@ -1732,7 +1707,6 @@ export default function A4Template() {
               onUpdate={(i, key, val) => updateColumnBlock("page2", "right", i, key, val)}
               onOCR={(i) => handleOCR("page2", "right", i)}
               maxImageHeight={a4MaxImageHeight}
-              
               resetCounter={resetCounter}
               columnSide="right"
               trailingContent={
@@ -1787,11 +1761,7 @@ export default function A4Template() {
             </button>
           </div>
           <p className="text-sm text-zinc-600 leading-relaxed text-left">
-            Yazılı sınav hazırlama aracımızda bazı başlıklar ve bölümler isteğinize göre düzenlenebilir özelliktedir{" "}
-            (<span className="text-red-600 font-bold underline decoration-dotted">
-              Bölümleri gör
-            </span>
-            ). Üye olmadan <strong>resim yükleme, resim kırma, resimlerdeki soruları otomatik olarak yazıya dönüştüme</strong>, pdf alma işlemleri yapabilirsiniz.
+            Yazılı sınav hazırlama aracımızda bazı başlıklar ve bölümler isteğinize göre düzenlenebilir özelliktedir. Üye olmadan <strong>resim yükleme, resim kırma, resimlerdeki soruları otomatik olarak yazıya dönüştüme</strong>, pdf alma işlemleri yapabilirsiniz.
           </p>
         </div>
       )}
