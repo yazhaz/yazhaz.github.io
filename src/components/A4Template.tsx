@@ -1208,8 +1208,6 @@ function AnswerKeyModal({ open, onClose, onConfirm }: AnswerKeyModalProps) {
 
 export default function A4Template() {
   const [data, setData] = useState<TemplateData>(defaultData);
-  const [isHighlighting, setIsHighlighting] = useState(false);
-  const [isHighlightingLocked, setIsHighlightingLocked] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [isPdfGenerating, setIsPdfGenerating] = useState(false);
   const [resetCounter, setResetCounter] = useState(0);
@@ -1795,19 +1793,7 @@ export default function A4Template() {
           </div>
           <p className="text-sm text-zinc-600 leading-relaxed text-left">
             Yazılı sınav hazırlama aracımızda bazı başlıklar ve bölümler isteğinize göre düzenlenebilir özelliktedir{" "}
-            (<span 
-              className="text-red-600 font-bold cursor-pointer underline decoration-dotted transition-colors duration-500 ease-in-out hover:text-red-800"
-              onMouseEnter={() => setIsHighlighting(true)}
-              onMouseLeave={() => {
-                if (!isHighlightingLocked) setIsHighlighting(false);
-              }}
-              onClick={() => {
-                const nextLocked = !isHighlightingLocked;
-                setIsHighlightingLocked(nextLocked);
-                setIsHighlighting(nextLocked);
-              }}
-              title="Tıklayarak vurgulamayı sabitleyebilirsiniz"
-            >
+            (<span className="text-red-600 font-bold underline decoration-dotted">
               Bölümleri gör
             </span>
             ). Üye olmadan <strong>resim yükleme, resim kırma, resimlerdeki soruları otomatik olarak yazıya dönüştüme</strong>, pdf alma işlemleri yapabilirsiniz.
