@@ -1209,6 +1209,7 @@ function AnswerKeyModal({ open, onClose, onConfirm }: AnswerKeyModalProps) {
 export default function A4Template() {
   const [data, setData] = useState<TemplateData>(defaultData);
   const [isHighlighting, setIsHighlighting] = useState(false);
+  const [isHighlightingLocked, setIsHighlightingLocked] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [isPdfGenerating, setIsPdfGenerating] = useState(false);
   const [resetCounter, setResetCounter] = useState(0);
@@ -1797,7 +1798,15 @@ export default function A4Template() {
             (<span 
               className="text-red-600 font-bold cursor-pointer underline decoration-dotted"
               onMouseEnter={() => setIsHighlighting(true)}
-              onMouseLeave={() => setIsHighlighting(false)}
+              onMouseLeave={() => {
+                if (!isHighlightingLocked) setIsHighlighting(false);
+              }}
+              onClick={() => {
+                const nextLocked = !isHighlightingLocked;
+                setIsHighlightingLocked(nextLocked);
+                setIsHighlighting(nextLocked);
+              }}
+              title="Tıklayarak vurgulamayı sabitleyebilirsiniz"
             >
               Bölümleri gör
             </span>
