@@ -708,13 +708,13 @@ className="print:hidden absolute z-20 opacity-0 group-hover/block:opacity-100 tr
       </button>
 
       <div className="flex items-center gap-2">
-        <EditableText value={item.text} onChange={onTextChange} className="font-bold text-sm text-black" isHighlighting={isHighlighting} tooltipText={"Tıklayarak düzenleyebilirsiniz"} tooltipSide={columnSide === 'left' ? 'left' : 'right'} />
+        <EditableText value={item.text} onChange={onTextChange} className="font-bold text-sm text-black"  tooltipText={"Tıklayarak düzenleyebilirsiniz"} tooltipSide={columnSide === 'left' ? 'left' : 'right'} />
         <div className="ml-auto shrink-0">
           <EditableText
             value={item.score ?? "Puanı :\u00A0\u00A0\u00A0\u00A0\u00A0"}
             onChange={onScoreChange}
             className="text-xs text-gray-500 font-semibold text-right whitespace-nowrap"
-isHighlighting={isHighlighting}
+
             tooltipText={"Tıklayarak düzenleyebilirsiniz"}
             tooltipSide={columnSide === 'left' ? 'left' : 'right'}
           />
@@ -802,7 +802,7 @@ isHighlighting={isHighlighting}
                 <span className="font-semibold text-xs">Resmi düzenle</span>
               </button>
             )}
-            <ImageUploader key={blockHeight} src={item.image} onChange={onImageChange} height={blockHeight} isHighlighting={isHighlighting} onImageLoadComplete={() => setShowMenu(true)} />
+            <ImageUploader key={blockHeight} src={item.image} onChange={onImageChange} height={blockHeight}  onImageLoadComplete={() => setShowMenu(true)} />
             {isOCRProcessing && (
               <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] flex flex-col items-center justify-center gap-2 z-10">
                 <Loader2 className="size-6 animate-spin text-slate-600" />
@@ -826,7 +826,7 @@ isHighlighting={isHighlighting}
         onHeightChange(finalHeight);
        }
       }} 
-      isHighlighting={isHighlighting} 
+       
       onImageLoadComplete={() => setShowMenu(true)} 
      />
    )}
@@ -838,7 +838,7 @@ isHighlighting={isHighlighting}
             value={item.content}
             onChange={onContentChange}
             className="text-sm text-black"
-            isHighlighting={isHighlighting}
+            
             tooltipText={"Tıklayarak düzenleyebilirsiniz"}
             tooltipSide={columnSide === 'left' ? 'left' : 'right'}
           />
@@ -941,7 +941,7 @@ function Column({
             onOCR={() => onOCR(i)}
             onRemove={() => onRemove(i)}
             maxImageHeight={maxImageHeight}
-            isHighlighting={isHighlighting}
+            
             columnSide={columnSide}
           />
         </React.Fragment>
@@ -1611,7 +1611,7 @@ export default function A4Template() {
             <LogoUploader
               src={data.headerLogo}
               onChange={(val) => setData((prev) => ({ ...prev, headerLogo: val }))}
-              isHighlighting={isHighlighting}
+              
             />
 
             <div className="flex-1 flex flex-col items-start gap-1">
@@ -1619,7 +1619,7 @@ export default function A4Template() {
                 value={data.headerTitle}
                 onChange={(val) => setData((prev) => ({ ...prev, headerTitle: val }))}
                 className="text-xl font-bold text-black leading-tight w-full"
-                isHighlighting={isHighlighting}
+                
                 tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz."}
                 tooltipSide="left"
               />
@@ -1627,7 +1627,7 @@ export default function A4Template() {
                 value={data.headerSchool}
                 onChange={(val) => setData((prev) => ({ ...prev, headerSchool: val }))}
                 className="text-xl font-semibold text-black leading-tight w-full"
-                isHighlighting={isHighlighting}
+                
                 tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz."}
                 tooltipSide="left"
               />
@@ -1661,7 +1661,7 @@ export default function A4Template() {
               onUpdate={(i, key, val) => updateColumnBlock("page1", "left", i, key, val)}
               onOCR={(i) => handleOCR("page1", "left", i)}
               maxImageHeight={a4MaxImageHeight}
-              isHighlighting={isHighlighting}
+              
               resetCounter={resetCounter}
               columnSide="left"
             />
@@ -1674,7 +1674,7 @@ export default function A4Template() {
               onUpdate={(i, key, val) => updateColumnBlock("page1", "right", i, key, val)}
               onOCR={(i) => handleOCR("page1", "right", i)}
               maxImageHeight={a4MaxImageHeight}
-              isHighlighting={isHighlighting}
+              
               resetCounter={resetCounter}
               columnSide="right"
             />
@@ -1720,7 +1720,7 @@ export default function A4Template() {
               onUpdate={(i, key, val) => updateColumnBlock("page2", "left", i, key, val)}
               onOCR={(i) => handleOCR("page2", "left", i)}
               maxImageHeight={a4MaxImageHeight}
-              isHighlighting={isHighlighting}
+              
               resetCounter={resetCounter}
               columnSide="left"
             />
@@ -1733,7 +1733,7 @@ export default function A4Template() {
               onUpdate={(i, key, val) => updateColumnBlock("page2", "right", i, key, val)}
               onOCR={(i) => handleOCR("page2", "right", i)}
               maxImageHeight={a4MaxImageHeight}
-              isHighlighting={isHighlighting}
+              
               resetCounter={resetCounter}
               columnSide="right"
               trailingContent={
