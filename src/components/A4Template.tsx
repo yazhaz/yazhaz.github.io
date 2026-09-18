@@ -220,7 +220,7 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
   };
 
   return (
-    <div className={`relative group w-full block border border-transparent hover:border-red-600 rounded-none print:border-0 ${isHighlighting ? "" : "transition-colors duration-150"}`} style={isHighlighting ? { transition: 'none' } : undefined}
+    <div className={`relative group w-full block border rounded-none print:border-0 transition-colors duration-500 ease-in-out ${isHighlighting ? "border-red-600" : "border-transparent hover:border-red-600"}`}
       onMouseEnter={() => {
         if (tooltipText) {
           setShowTooltip(true);
@@ -1796,7 +1796,7 @@ export default function A4Template() {
           <p className="text-sm text-zinc-600 leading-relaxed text-left">
             Yazılı sınav hazırlama aracımızda bazı başlıklar ve bölümler isteğinize göre düzenlenebilir özelliktedir{" "}
             (<span 
-              className="text-red-600 font-bold cursor-pointer underline decoration-dotted"
+              className="text-red-600 font-bold cursor-pointer underline decoration-dotted transition-colors duration-500 ease-in-out hover:text-red-800"
               onMouseEnter={() => setIsHighlighting(true)}
               onMouseLeave={() => {
                 if (!isHighlightingLocked) setIsHighlighting(false);
