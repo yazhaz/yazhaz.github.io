@@ -220,7 +220,7 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
   };
 
   return (
-    <div className={`relative group w-full block border rounded-none print:border-0 transition-colors duration-500 ease-in-out ${isHighlighting ? "border-red-600" : "border-transparent hover:border-red-600"}`}
+    <div className={`relative w-full block border rounded-none print:border-0 ${isHighlighting ? "border-red-600" : "border-transparent"}`}
       onMouseEnter={() => {
         if (tooltipText) {
           setShowTooltip(true);
@@ -404,7 +404,7 @@ function LogoUploader({ src, onChange, isHighlighting = false }: LogoUploaderPro
       <img 
         src={src || defaultLogo} 
         alt="MEB Logo" 
-        className="w-full h-full object-contain group-hover/logo:border-2 group-hover/logo:border-dashed group-hover/logo:border-[#cad5e2]" 
+        className="w-full h-full object-contain group-hover/logo:border-2 group-hover/logo:border-dashed group-hover/logo:border-[#cad5e2]"
       />
 
       {/* Reset Butonu - Sadece özel logo yüklendiğinde göster - hover'da görünür */}
@@ -524,10 +524,10 @@ function CompactImageUploader({ onImageChange, isHighlighting = false, className
       style={isHighlighting ? { transition: 'none' } : undefined}
     >
       <div
-        onClick={() => inputRef.current?.click()}
-        className={`w-full min-h-[200px] flex flex-col items-center justify-center bg-slate-50/50 border-2 border-dashed border-slate-300 hover:border-slate-400 hover:bg-slate-100/50 cursor-pointer ${isHighlighting ? "highlight-active" : "transition-colors duration-150"}`}
-        style={isHighlighting ? { transition: 'none' } : undefined}
-      >
+  onClick={() => inputRef.current?.click()}
+  className={`w-full min-h-[200px] flex flex-col items-center justify-center bg-slate-50/50 border-2 border-dashed border-slate-300 cursor-pointer ${isHighlighting ? "highlight-active" : ""}`}
+  style={isHighlighting ? { transition: 'none' } : undefined}
+>
         <Button
           size="sm"
           className={`${UPLOAD_BTN_BG} ${UPLOAD_BTN_HOVER} text-white border-transparent cursor-pointer rounded-none gap-2 px-6 h-10 shadow-sm opacity-100${isHighlighting ? "" : " transition-colors duration-150"} upload-btn`}
@@ -853,7 +853,7 @@ isHighlighting={isHighlighting}
           <TooltipTrigger asChild>
             <div
               className={`relative no-print h-2 w-full cursor-s-resize bg-zinc-100 border border-transparent rounded-b print:hidden flex items-center justify-center group/resize ${
-                isHighlighting ? "highlight-active" : "transition-colors duration-150"
+                isHighlighting ? "highlight-active" : ""
               }`}
               onMouseDown={handleResizeStart}
               onMouseEnter={() => setShowResizeTooltip(true)}
@@ -861,7 +861,7 @@ isHighlighting={isHighlighting}
               style={isHighlighting ? { transition: 'none' } : undefined}
             >
               {/* Başlıkların kullandığı highlight-pulse-glow animasyonu bu elemana uygulanır. */}
-              <div className={`w-12 h-0.5 bg-zinc-300 rounded-full ${isHighlighting ? "" : "group-hover/resize:bg-zinc-400 transition-colors duration-150"}`} />
+              <div className={`w-12 h-0.5 bg-zinc-300 rounded-full ${isHighlighting ? "" : ""}`} />
             </div>
           </TooltipTrigger>
           <TooltipContent side="bottom" className="text-center bg-red-600 border-red-600 text-white px-3 py-[10px] shadow-lg rounded-none">
