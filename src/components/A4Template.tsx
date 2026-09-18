@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ImageCropperModal } from "./ImageCropperModal";
 import { performOCR } from "@/lib/image-utils";
+
 const STORAGE_KEY = "refine-template-v1";
 const THREE_DAYS = 3 * 24 * 60 * 60 * 1000;
 
@@ -152,6 +153,7 @@ interface EditableTextProps {
   value: string;
   onChange: (val: string) => void;
   className?: string;
+  isHighlighting?: boolean;
   tooltipText?: string;
   tooltipSide?: "left" | "right";
 }
@@ -165,7 +167,7 @@ const sanitizeHTML = (html: string): string => {
     .replace(/\son\w+='[^']*'/gi, "");
 };
 
-function EditableText({ value, onChange, className = "", tooltipText, tooltipSide = "left" }: EditableTextProps) {
+function EditableText({ value, onChange, className = "", isHighlighting = false, tooltipText, tooltipSide = "left" }: EditableTextProps) {
   const [editing, setEditing] = useState(false);
   const divRef = useRef<HTMLDivElement>(null);
   const localEditRef = useRef(false);
@@ -219,7 +221,7 @@ function EditableText({ value, onChange, className = "", tooltipText, tooltipSid
   };
 
   return (
-    <div className="relative group w-full block border border-transparent hover:border-red-600 rounded-none print:border-0 transition-colors duration-150"
+    <div className={`relative group w-full block border border-transparent hover:border-red-600 rounded-none print:border-0 ${isHighlighting ? "" : "transition-colors duration-150"}`} style={isHighlighting ? { transition: 'none' } : undefined}
       onMouseEnter={() => {
         if (tooltipText) {
           setShowTooltip(true);
@@ -312,12 +314,14 @@ function EditableText({ value, onChange, className = "", tooltipText, tooltipSid
           commitContent();
         }}
         className={[
-          "cursor-text whitespace-pre-wrap text-black outline-none w-full block transition-all",
+          `cursor-text whitespace-pre-wrap text-black outline-none w-full block${isHighlighting ? "" : " transition-all"}`,
           editing ? "ring-2 ring-zinc-300 print:ring-0" : "",
+          isHighlighting ? "highlight-active" : "",
           className,
         ]
           .filter(Boolean)
           .join(" ")}
+        style={isHighlighting ? { transition: 'none' } : undefined}
       />
 
 {tooltipText && showTooltip && (
@@ -337,9 +341,10 @@ function EditableText({ value, onChange, className = "", tooltipText, tooltipSid
 interface LogoUploaderProps {
   src: string;
   onChange: (val: string) => void;
+  isHighlighting?: boolean;
 }
 
-function LogoUploader({ src, onChange }: LogoUploaderProps) {
+function LogoUploader({ src, onChange, isHighlighting = false }: LogoUploaderProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [showTooltip, setShowTooltip] = useState(false);
   const [showErrorTooltip, setShowErrorTooltip] = useState(false);
@@ -391,7 +396,8 @@ function LogoUploader({ src, onChange }: LogoUploaderProps) {
 
   return (
     <div 
-      className="w-20 h-20 flex-shrink-0 flex items-center justify-center relative group/logo cursor-pointer"
+      className={`w-20 h-20 flex-shrink-0 flex items-center justify-center relative group/logo cursor-pointer ${isHighlighting ? "highlight-active" : ""}`}
+      style={isHighlighting ? { transition: 'none' } : undefined}
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
       onClick={handleClick}
@@ -406,7 +412,8 @@ function LogoUploader({ src, onChange }: LogoUploaderProps) {
       {src && (
         <button
           onClick={handleReset}
-          className="print:hidden absolute top-0 left-0 z-30 opacity-0 group-hover/logo:opacity-100 flex items-center justify-center gap-1 bg-red-600 hover:bg-red-700 text-white h-5 text-xs cursor-pointer w-full transition-opacity"
+          className={`print:hidden absolute top-0 left-0 z-30 opacity-0 group-hover/logo:opacity-100 flex items-center justify-center gap-1 bg-red-600 hover:bg-red-700 text-white h-5 text-xs cursor-pointer w-full${isHighlighting ? "" : " transition-opacity"}`}
+          style={isHighlighting ? { transition: 'none' } : undefined}
         >
           <Undo2 className="size-3 text-white font-bold" style={{ filter: "drop-shadow(0 0 1px rgba(255,255,255,0.8))" }} />
           <span className="whitespace-nowrap">Kaldır</span>
@@ -450,10 +457,11 @@ interface ImageUploaderProps {
   src: string;
   onChange: (val: string | ArrayBuffer | null) => void;
   height: number;
+  isHighlighting?: boolean;
   onImageLoadComplete?: () => void;
 }
 
-function ImageUploader({ src, onChange, height, onImageLoadComplete }: ImageUploaderProps) {
+function ImageUploader({ src, onChange, height, isHighlighting = false, onImageLoadComplete }: ImageUploaderProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [tempSrc, setTempSrc] = useState<string>("");
@@ -461,8 +469,8 @@ function ImageUploader({ src, onChange, height, onImageLoadComplete }: ImageUplo
   return (
     <>
       <div
-        className="relative overflow-hidden bg-white print:bg-white border border-dashed border-zinc-300 group/imgarea:hover:border-zinc-500 flex items-start justify-center transition-colors duration-150"
-        style={{ height: height }}
+        className={`relative overflow-hidden bg-white print:bg-white border border-dashed border-zinc-300 group/imgarea:hover:border-zinc-500 flex items-start justify-center ${isHighlighting ? "highlight-active" : "transition-colors duration-150"}`}
+        style={{ ...({ height: height } as React.CSSProperties), ...(isHighlighting ? { transition: 'none' } as React.CSSProperties : {}) }}
       >
         {src && <img src={src} className="w-full h-auto max-h-full object-contain" alt="Yüklenen görsel" />}
 
@@ -501,24 +509,30 @@ function ImageUploader({ src, onChange, height, onImageLoadComplete }: ImageUplo
 /** Basit, kompakt resim yükleme butonu (A4 alanından tasarruf için) */
 interface CompactImageUploaderProps {
   onImageChange: (val: string | ArrayBuffer | null, width?: number, height?: number) => void;
+  isHighlighting?: boolean;
   className?: string;
   onImageLoadComplete?: () => void;
 }
 
-function CompactImageUploader({ onImageChange, className = "", onImageLoadComplete }: CompactImageUploaderProps) {
+function CompactImageUploader({ onImageChange, isHighlighting = false, className = "", onImageLoadComplete }: CompactImageUploaderProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [tempSrc, setTempSrc] = useState<string>("");
 
   return (
-    <div className={`relative group w-full block border border-transparent rounded-none print:hidden transition-colors duration-150 ${className}`}>
+    <div
+      className={`relative group w-full block border border-transparent rounded-none print:hidden ${isHighlighting ? "" : "transition-colors duration-150"} ${className}`}
+      style={isHighlighting ? { transition: 'none' } : undefined}
+    >
       <div
         onClick={() => inputRef.current?.click()}
-        className="w-full min-h-[200px] flex flex-col items-center justify-center bg-slate-50/50 border-2 border-dashed border-slate-300 hover:border-slate-400 hover:bg-slate-100/50 cursor-pointer transition-colors duration-150"
+        className={`w-full min-h-[200px] flex flex-col items-center justify-center bg-slate-50/50 border-2 border-dashed border-slate-300 hover:border-slate-400 hover:bg-slate-100/50 cursor-pointer ${isHighlighting ? "highlight-active" : "transition-colors duration-150"}`}
+        style={isHighlighting ? { transition: 'none' } : undefined}
       >
         <Button
           size="sm"
-          className={`${UPLOAD_BTN_BG} ${UPLOAD_BTN_HOVER} text-white border-transparent cursor-pointer rounded-none gap-2 px-6 h-10 shadow-sm opacity-100 transition-colors duration-150 upload-btn`}
+          className={`${UPLOAD_BTN_BG} ${UPLOAD_BTN_HOVER} text-white border-transparent cursor-pointer rounded-none gap-2 px-6 h-10 shadow-sm opacity-100${isHighlighting ? "" : " transition-colors duration-150"} upload-btn`}
+          style={isHighlighting ? { transition: 'none' } : undefined}
         >
           <Upload className="size-4" />
           Soru yükle
@@ -586,6 +600,7 @@ interface BlockCardProps {
   onOCR: () => void;
   onRemove: () => void;
   maxImageHeight: number;
+  isHighlighting?: boolean;
   columnSide: 'left' | 'right';
 }
 
@@ -600,6 +615,7 @@ function BlockCard({
   onOCR,
   onRemove,
   maxImageHeight,
+  isHighlighting = false,
   columnSide,
 }: BlockCardProps) {
   const [blockHeight, setBlockHeight] = useState<number>(item.height ?? DEFAULT_IMAGE_HEIGHT);
@@ -687,7 +703,7 @@ function BlockCard({
       {/* Bloku Kaldır - Sol alt köşe, hover'da görünür */}
       <button
         onClick={handleRemove}
-        className="print:hidden absolute z-20 opacity-0 group-hover/block:opacity-100 transition-opacity duration-200 flex items-center bg-red-600 border-l border-t border-red-700 text-white hover:bg-red-700 h-6 px-2 cursor-pointer"
+className="print:hidden absolute z-20 opacity-0 group-hover/block:opacity-100 transition-opacity duration-200 flex items-center bg-red-600 border-l border-t border-red-700 text-white hover:bg-red-700 h-6 px-2 cursor-pointer"
         style={{ right: 0, bottom: 0 }}
       >
         <X className="size-4" />
@@ -695,12 +711,13 @@ function BlockCard({
       </button>
 
       <div className="flex items-center gap-2">
-        <EditableText value={item.text} onChange={onTextChange} className="font-bold text-sm text-black" tooltipText={"Tıklayarak düzenleyebilirsiniz"} tooltipSide={columnSide === 'left' ? 'left' : 'right'} />
+        <EditableText value={item.text} onChange={onTextChange} className="font-bold text-sm text-black" isHighlighting={isHighlighting} tooltipText={"Tıklayarak düzenleyebilirsiniz"} tooltipSide={columnSide === 'left' ? 'left' : 'right'} />
         <div className="ml-auto shrink-0">
           <EditableText
             value={item.score ?? "Puanı :\u00A0\u00A0\u00A0\u00A0\u00A0"}
             onChange={onScoreChange}
             className="text-xs text-gray-500 font-semibold text-right whitespace-nowrap"
+isHighlighting={isHighlighting}
             tooltipText={"Tıklayarak düzenleyebilirsiniz"}
             tooltipSide={columnSide === 'left' ? 'left' : 'right'}
           />
@@ -788,7 +805,7 @@ function BlockCard({
                 <span className="font-semibold text-xs">Resmi düzenle</span>
               </button>
             )}
-            <ImageUploader key={blockHeight} src={item.image} onChange={onImageChange} height={blockHeight} onImageLoadComplete={() => setShowMenu(true)} />
+            <ImageUploader key={blockHeight} src={item.image} onChange={onImageChange} height={blockHeight} isHighlighting={isHighlighting} onImageLoadComplete={() => setShowMenu(true)} />
             {isOCRProcessing && (
               <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] flex flex-col items-center justify-center gap-2 z-10">
                 <Loader2 className="size-6 animate-spin text-slate-600" />
@@ -812,35 +829,37 @@ function BlockCard({
         onHeightChange(finalHeight);
        }
       }} 
+      isHighlighting={isHighlighting} 
       onImageLoadComplete={() => setShowMenu(true)} 
      />
    )}
 
-      {/* Soru İçeriği (Yazı Altta) */}
+      {/* Soru İçeriği (Yazı Altta) - Yazıcı/PDF'de sadece metin varsa göster */}
       {item.content && item.content.trim() && (
-        <div className="px-1 pb-1">
+        <div className="mt-1">
           <EditableText
-            value={item.content}
+            value={item.content || ""}
             onChange={onContentChange}
-            className="text-sm text-black"
-            tooltipText={"Tıklayarak düzenleyebilirsiniz"}
+            className="text-sm leading-relaxed"
+            isHighlighting={isHighlighting}
+            tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz.\nMetni seç,\nCTRL+B = Kalın yazı\nCTRL+I = Yan yazı\nCTRL+M = Yazıyı küçült\nCTRL+L = Yazıyı büyüt\nCTRL+O = Normal yazı"}
             tooltipSide={columnSide === 'left' ? 'left' : 'right'}
           />
         </div>
       )}
 
-      {/* Resize Handle - Overlay (Bağımsız Katman) Yöntemi */}
+      {/* Resize Handle - Always visible for prep layout */}
       <TooltipProvider>
         <Tooltip open={showResizeTooltip}>
           <TooltipTrigger asChild>
             <div
-              className="relative no-print h-2 w-full cursor-s-resize bg-zinc-100 border border-transparent rounded-b print:hidden flex items-center justify-center group/resize transition-colors duration-150"
+              className={`no-print h-2 w-full cursor-s-resize bg-zinc-100 hover:bg-zinc-300 rounded-b print:hidden flex items-center justify-center group/resize ${isHighlighting ? "highlight-active" : "transition-colors duration-150"}`}
+              style={isHighlighting ? { transition: 'none' } : undefined}
               onMouseDown={handleResizeStart}
               onMouseEnter={() => setShowResizeTooltip(true)}
               onMouseLeave={() => setShowResizeTooltip(false)}
             >
-              {/* Başlıkların kullandığı highlight-pulse-glow animasyonu bu elemana uygulanır. */}
-              <div className="w-12 h-0.5 bg-zinc-300 rounded-full group-hover/resize:bg-zinc-400 transition-colors duration-150" />
+              <div className="w-12 h-0.5 bg-zinc-300 group-hover/resize:bg-zinc-400 rounded-full" />
             </div>
           </TooltipTrigger>
           <TooltipContent side="bottom" className="text-center bg-red-600 border-red-600 text-white px-3 py-[10px] shadow-lg rounded-none">
@@ -849,7 +868,6 @@ function BlockCard({
         </Tooltip>
       </TooltipProvider>
 
-      
       {/* Kırpma Modal */}
       <ImageCropperModal
         open={cropModalOpen}
@@ -889,6 +907,7 @@ interface ColumnProps {
   onOCR: (index: number) => void;
   maxImageHeight: number;
   trailingContent?: React.ReactNode;
+  isHighlighting?: boolean;
   resetCounter: number;
   columnSide: 'left' | 'right';
 }
@@ -903,6 +922,7 @@ function Column({
   onOCR,
   maxImageHeight,
   trailingContent,
+  isHighlighting = false,
   resetCounter,
   columnSide,
 }: ColumnProps) {
@@ -922,6 +942,7 @@ function Column({
             onOCR={() => onOCR(i)}
             onRemove={() => onRemove(i)}
             maxImageHeight={maxImageHeight}
+            isHighlighting={isHighlighting}
             columnSide={columnSide}
           />
         </React.Fragment>
@@ -1184,6 +1205,7 @@ function AnswerKeyModal({ open, onClose, onConfirm }: AnswerKeyModalProps) {
 
 export default function A4Template() {
   const [data, setData] = useState<TemplateData>(defaultData);
+  const [isHighlighting, setIsHighlighting] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [isPdfGenerating, setIsPdfGenerating] = useState(false);
   const [resetCounter, setResetCounter] = useState(0);
@@ -1591,6 +1613,7 @@ export default function A4Template() {
             <LogoUploader
               src={data.headerLogo}
               onChange={(val) => setData((prev) => ({ ...prev, headerLogo: val }))}
+              isHighlighting={isHighlighting}
             />
 
             <div className="flex-1 flex flex-col items-start gap-1">
@@ -1598,6 +1621,7 @@ export default function A4Template() {
                 value={data.headerTitle}
                 onChange={(val) => setData((prev) => ({ ...prev, headerTitle: val }))}
                 className="text-xl font-bold text-black leading-tight w-full"
+                isHighlighting={isHighlighting}
                 tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz."}
                 tooltipSide="left"
               />
@@ -1605,6 +1629,7 @@ export default function A4Template() {
                 value={data.headerSchool}
                 onChange={(val) => setData((prev) => ({ ...prev, headerSchool: val }))}
                 className="text-xl font-semibold text-black leading-tight w-full"
+                isHighlighting={isHighlighting}
                 tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz."}
                 tooltipSide="left"
               />
@@ -1638,6 +1663,7 @@ export default function A4Template() {
               onUpdate={(i, key, val) => updateColumnBlock("page1", "left", i, key, val)}
               onOCR={(i) => handleOCR("page1", "left", i)}
               maxImageHeight={a4MaxImageHeight}
+              isHighlighting={isHighlighting}
               resetCounter={resetCounter}
               columnSide="left"
             />
@@ -1650,6 +1676,7 @@ export default function A4Template() {
               onUpdate={(i, key, val) => updateColumnBlock("page1", "right", i, key, val)}
               onOCR={(i) => handleOCR("page1", "right", i)}
               maxImageHeight={a4MaxImageHeight}
+              isHighlighting={isHighlighting}
               resetCounter={resetCounter}
               columnSide="right"
             />
@@ -1695,6 +1722,7 @@ export default function A4Template() {
               onUpdate={(i, key, val) => updateColumnBlock("page2", "left", i, key, val)}
               onOCR={(i) => handleOCR("page2", "left", i)}
               maxImageHeight={a4MaxImageHeight}
+              isHighlighting={isHighlighting}
               resetCounter={resetCounter}
               columnSide="left"
             />
@@ -1707,6 +1735,7 @@ export default function A4Template() {
               onUpdate={(i, key, val) => updateColumnBlock("page2", "right", i, key, val)}
               onOCR={(i) => handleOCR("page2", "right", i)}
               maxImageHeight={a4MaxImageHeight}
+              isHighlighting={isHighlighting}
               resetCounter={resetCounter}
               columnSide="right"
               trailingContent={
@@ -1866,8 +1895,8 @@ export default function A4Template() {
           </DialogHeader>
           <div className="py-6 text-base text-zinc-800 font-medium leading-relaxed text-center">
             Sayfada yaptığınız değişiklikler ve yüklediğiniz resimler 3 gün boyunca tarayıcınızın hafızasında kayıtlı kalacaktır. <br/>
-            Yanlışlıkla sayfanın yenilenmesi veya tarayıcınızı kapatmanız durumunda yaptıklarınızın kaybolmaması için 3 gün saklama özelliği eklenmiştir.<br/><br/>
-            Çalıştığınız bilgisayar herkese açık bir bilgisayarsa ayrılmadan mutlaka "<strong className="text-red-600 font-extrabold px-1">Değişiklikleri sıfırla</strong>" butonuna tıklayınız!
+            Yanlışlıkla sayfanın yenilenmesi veya tarayıcınızı kapatmanız durumunda yaptıklarınızın kaybolmaması için böyle bir özellik eklenmiştir.<br/><br/>
+            Herkese açık bir bilgisayarsa bilgisayardan ayrılmadan mutlaka <strong className="text-red-600 font-extrabold px-1">"Değişiklikleri sıfırla"</strong> butonuna tıklayınız!
           </div>
           <DialogFooter className="mt-6 flex sm:justify-center w-full">
             <Button onClick={() => setShowWarningModal(false)} className="rounded-none bg-slate-700 hover:bg-slate-600 text-white cursor-pointer px-8 py-4 text-base font-bold w-auto">
