@@ -393,17 +393,16 @@ function LogoUploader({ src, onChange, isHighlighting = false }: LogoUploaderPro
 
   return (
     <div 
-      className="w-full h-full object-contain"
-      style={isHighlighting ? { transition: 'none' } : undefined}
-      onMouseEnter={() => setShowTooltip(true)}
-      onMouseLeave={() => setShowTooltip(false)}
-      onClick={handleClick}
-    >
-      <img 
-  src={src || defaultLogo} 
-  alt="MEB Logo" 
-  className="w-full h-full object-contain"
-/>
+  className="w-20 h-20 flex-shrink-0 flex items-center justify-center relative group/logo cursor-pointer"
+  onMouseEnter={() => setShowTooltip(true)}
+  onMouseLeave={() => setShowTooltip(false)}
+  onClick={handleClick}
+>
+  <img 
+    src={src || defaultLogo} 
+    alt="MEB Logo" 
+    className="w-full h-full object-contain group-hover/logo:border-2 group-hover/logo:border-dashed group-hover/logo:border-[#cad5e2]"
+  />
 
       {/* Reset Butonu - Sadece özel logo yüklendiğinde göster - hover'da görünür */}
       {src && (
