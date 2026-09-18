@@ -313,14 +313,12 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
           commitContent();
         }}
         className={[
-          `cursor-text whitespace-pre-wrap text-black outline-none w-full block${isHighlighting ? "" : " transition-all"}`,
+          "cursor-text whitespace-pre-wrap text-black outline-none w-full block",
           editing ? "ring-2 ring-zinc-300 print:ring-0" : "",
-          style={isHighlighting ? { transition: 'none' } : undefined}
           className,
         ]
           .filter(Boolean)
           .join(" ")}
-        style={isHighlighting ? { transition: 'none' } : undefined}
       />
 
 {tooltipText && showTooltip && (
