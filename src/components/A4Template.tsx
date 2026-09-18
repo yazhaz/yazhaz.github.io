@@ -220,7 +220,7 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
   };
 
   return (
-    <div className={`relative w-full block border rounded-none print:border-0 ${isHighlighting ? "border-red-600" : "border-transparent"}`}
+    <div className="relative w-full block border rounded-none print:border-0 border-transparent"
       onMouseEnter={() => {
         if (tooltipText) {
           setShowTooltip(true);
@@ -315,7 +315,7 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
         className={[
           `cursor-text whitespace-pre-wrap text-black outline-none w-full block${isHighlighting ? "" : " transition-all"}`,
           editing ? "ring-2 ring-zinc-300 print:ring-0" : "",
-          isHighlighting ? "highlight-active" : "",
+          style={isHighlighting ? { transition: 'none' } : undefined}
           className,
         ]
           .filter(Boolean)
@@ -395,7 +395,7 @@ function LogoUploader({ src, onChange, isHighlighting = false }: LogoUploaderPro
 
   return (
     <div 
-      className={`w-20 h-20 flex-shrink-0 flex items-center justify-center relative group/logo cursor-pointer ${isHighlighting ? "highlight-active" : ""}`}
+      className="w-full h-full object-contain"
       style={isHighlighting ? { transition: 'none' } : undefined}
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
@@ -468,7 +468,7 @@ function ImageUploader({ src, onChange, height, isHighlighting = false, onImageL
   return (
     <>
       <div
-  className={`relative overflow-hidden bg-white print:bg-white border border-dashed border-zinc-300 flex items-start justify-center ${isHighlighting ? "highlight-active" : ""}`}
+  className="relative overflow-hidden bg-white print:bg-white border border-dashed border-zinc-300 flex items-start justify-center"
   style={{ ...({ height: height } as React.CSSProperties), ...(isHighlighting ? { transition: 'none' } as React.CSSProperties : {}) }}
 >
         {src && <img src={src} className="w-full h-auto max-h-full object-contain" alt="Yüklenen görsel" />}
@@ -525,7 +525,7 @@ function CompactImageUploader({ onImageChange, isHighlighting = false, className
     >
       <div
   onClick={() => inputRef.current?.click()}
-  className={`w-full min-h-[200px] flex flex-col items-center justify-center bg-slate-50/50 border-2 border-dashed border-slate-300 cursor-pointer ${isHighlighting ? "highlight-active" : ""}`}
+  className="w-full min-h-[200px] flex flex-col items-center justify-center bg-slate-50/50 border-2 border-dashed border-slate-300 cursor-pointer"
   style={isHighlighting ? { transition: 'none' } : undefined}
 >
         <Button
@@ -852,9 +852,7 @@ isHighlighting={isHighlighting}
         <Tooltip open={showResizeTooltip}>
           <TooltipTrigger asChild>
             <div
-              className={`relative no-print h-2 w-full cursor-s-resize bg-zinc-100 border border-transparent rounded-b print:hidden flex items-center justify-center group/resize ${
-                isHighlighting ? "highlight-active" : ""
-              }`}
+              className="relative no-print h-2 w-full cursor-s-resize bg-zinc-100 border border-transparent rounded-b print:hidden flex items-center justify-center group/resize"
               onMouseDown={handleResizeStart}
               onMouseEnter={() => setShowResizeTooltip(true)}
               onMouseLeave={() => setShowResizeTooltip(false)}
