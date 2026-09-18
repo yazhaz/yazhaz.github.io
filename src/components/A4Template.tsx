@@ -402,10 +402,10 @@ function LogoUploader({ src, onChange, isHighlighting = false }: LogoUploaderPro
       onClick={handleClick}
     >
       <img 
-        src={src || defaultLogo} 
-        alt="MEB Logo" 
-        className="w-full h-full object-contain group-hover/logo:border-2 group-hover/logo:border-dashed group-hover/logo:border-[#cad5e2]"
-      />
+  src={src || defaultLogo} 
+  alt="MEB Logo" 
+  className="w-full h-full object-contain"
+/>
 
       {/* Reset Butonu - Sadece özel logo yüklendiğinde göster - hover'da görünür */}
       {src && (
@@ -468,9 +468,9 @@ function ImageUploader({ src, onChange, height, isHighlighting = false, onImageL
   return (
     <>
       <div
-        className={`relative overflow-hidden bg-white print:bg-white border border-dashed border-zinc-300 group/imgarea:hover:border-zinc-500 flex items-start justify-center ${isHighlighting ? "highlight-active" : "transition-colors duration-150"}`}
-        style={{ ...({ height: height } as React.CSSProperties), ...(isHighlighting ? { transition: 'none' } as React.CSSProperties : {}) }}
-      >
+  className={`relative overflow-hidden bg-white print:bg-white border border-dashed border-zinc-300 flex items-start justify-center ${isHighlighting ? "highlight-active" : ""}`}
+  style={{ ...({ height: height } as React.CSSProperties), ...(isHighlighting ? { transition: 'none' } as React.CSSProperties : {}) }}
+>
         {src && <img src={src} className="w-full h-auto max-h-full object-contain" alt="Yüklenen görsel" />}
 
         <input
@@ -698,7 +698,7 @@ function BlockCard({
   };
 
   return (
-    <div ref={cardRef} className={`relative group/block bg-white border border-zinc-200 hover:border-red-600 px-3 py-[5px] flex flex-col gap-2 print:border-zinc-200 ${removing ? "overflow-hidden block-removing" : "overflow-visible transition-colors duration-150"} ${!item.content && !item.image ? "print:hidden preview-hidden" : ""} ${!item.content && !item.image && !item.text ? "preview-hidden-empty" : ""}`}>
+   <div ref={cardRef} className={`relative group/block bg-white border border-zinc-200 px-3 py-[5px] flex flex-col gap-2 print:border-zinc-200 ${removing ? "overflow-hidden block-removing" : "overflow-visible"} ${!item.content && !item.image ? "print:hidden preview-hidden" : ""} ${!item.content && !item.image && !item.text ? "preview-hidden-empty" : ""}`}>
       {/* Bloku Kaldır - Sol alt köşe, hover'da görünür */}
       <button
         onClick={handleRemove}
