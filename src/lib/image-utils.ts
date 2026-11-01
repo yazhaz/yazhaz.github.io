@@ -52,7 +52,16 @@ export async function compressImage(
  * @param lang Language code (default 'tur').
  */
 export async function performOCR(base64: string, lang: string = 'tur'): Promise<string> {
-  const worker = await createWorker(lang);
+  const baseUrl = import.meta.env.BASE_URL.endsWith('/')
+    ? import.meta.env.BASE_URL
+    : `${import.meta.env.BASE_URL}/`;
+
+  const worker = await createWorker(lang, 1, {
+    workerPath: `${baseUrl}tesseract/worker.min.js`,
+    corePath: `${baseUrl}tesseract`,
+    langPath: `${baseUrl}tesseract`,
+    gzip: true,
+  });
   // Dizilimi (tablo boşluklarını) korumak için gerekli ayar
   await worker.setParameters({
     preserve_interword_spaces: '1',

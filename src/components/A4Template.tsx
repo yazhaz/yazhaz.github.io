@@ -349,7 +349,7 @@ function LogoUploader({ src, onChange, isHighlighting = false }: LogoUploaderPro
   const [showTooltip, setShowTooltip] = useState(false);
   const [showErrorTooltip, setShowErrorTooltip] = useState(false);
 
-  const defaultLogo = "https://upload.wikimedia.org/wikipedia/commons/c/cc/Milli_E%C4%9Fitim_Bakanl%C4%B1%C4%9F%C4%B1_Logo.svg";
+  const defaultLogo = `${import.meta.env.BASE_URL}meb-logo.svg`;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
