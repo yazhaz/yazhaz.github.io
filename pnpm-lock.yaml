@@ -175,13 +175,13 @@ importers:
         version: 19.2.0(react@19.2.0)
       react-filerobot-image-editor:
         specifier: 5.0.0-beta.159
-        version: 5.0.0-beta.159(@babel/core@7.28.4(supports-color@7.2.0))(@types/react-dom@19.2.1(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react-konva@19.3.2(@types/react@19.2.2)(konva@10.9.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)(styled-components@6.6.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0))
+        version: 5.0.0-beta.159(@babel/core@7.28.4(supports-color@7.2.0))(@types/react-dom@19.2.1(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react-konva@19.2.7(@types/react@19.2.2)(konva@10.9.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)(styled-components@6.6.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0))
       react-hook-form:
         specifier: ^7.57.0
         version: 7.64.0(react@19.2.0)
       react-konva:
-        specifier: ^19.3.2
-        version: 19.3.2(@types/react@19.2.2)(konva@10.9.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        specifier: 19.2.7
+        version: 19.2.7(@types/react@19.2.2)(konva@10.9.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       react-resizable-panels:
         specifier: ^3.0.2
         version: 3.0.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -1851,8 +1851,8 @@ packages:
     peerDependencies:
       '@types/react': '*'
 
-  '@types/react-reconciler@0.34.0':
-    resolution: {integrity: sha512-zVDzX0Fk1XgDP2IutTpSrxd57jwOHlX3rlPrFz68Sc+06tpgOFRlqSUK2ZiqQeQXqnIfUb2cfJQUupXBKy498w==}
+  '@types/react-reconciler@0.33.1':
+    resolution: {integrity: sha512-0kF59ji2mKuHUd5wytHSpmORybMYVerJvq0K10pz9ZFoOlJ3e+w1LBjLshWpCrokeyQOioRodNbO4PH4ddvRfg==}
     peerDependencies:
       '@types/react': '*'
 
@@ -3688,18 +3688,18 @@ packages:
       react-dom: ^18.2.0 || ^19.0.0
       react-konva: ^18.2.10 || ^19.0.1
 
-  react-konva@19.3.2:
-    resolution: {integrity: sha512-Uv0xlWoRSCByHinqs/03SFL8E28fYbe59sQ+2EJpwa1O4Zlz0+T+8DaKwlma9C2rkYwYj6j8eHD41F5oJafagg==}
+  react-konva@19.2.7:
+    resolution: {integrity: sha512-z/mxVITj2W+MQ8+TeD7ONMnMvy99hj4NJ4UfmWbjJcdeUOm8AZR41cCfwRZTryE3/z4r2/nOyckRNlr0GP+G3w==}
     peerDependencies:
       konva: ^8.0.1 || ^7.2.5 || ^9.0.0 || ^10.0.0
-      react: ^19.3.0
-      react-dom: ^19.3.0
+      react: ^19.2.0
+      react-dom: ^19.2.0
 
-  react-reconciler@0.34.0:
-    resolution: {integrity: sha512-eVibvB1fc9j5Qf1KRkiM3GzRPBdjg2P6G6QV2f3P6Eb3OGMxRBhdg2rrUwjbV5JrQaJj8nOa8uajmmJA5tJWjQ==}
+  react-reconciler@0.33.0:
+    resolution: {integrity: sha512-KetWRytFv1epdpJc3J4G75I4WrplZE5jOL7Yq0p34+OVOKF4Se7WrdIdVC45XsSSmUTlht2FM/fM1FZb1mfQeA==}
     engines: {node: '>=0.10.0'}
     peerDependencies:
-      react: ^19.3.0
+      react: ^19.2.0
 
   react-refresh@0.17.0:
     resolution: {integrity: sha512-z6F7K9bV85EfseRCp2bzrpyQ0Gkw1uLoCel9XBVWPg/TjRj94SkJzUTGfOa4bs7iJvBWtQG0Wq7wnI0syw3EBQ==}
@@ -3873,9 +3873,6 @@ packages:
 
   scheduler@0.27.0:
     resolution: {integrity: sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q==}
-
-  scheduler@0.28.0:
-    resolution: {integrity: sha512-juorfCmIkIw8tT+p5BXSm6PJjQF/ycEYmKyzURCIt/RaZIhL+PulbQ9Yu2z1HdOJDdqDTlxA1+xKBmHXJsczAw==}
 
   section-matter@1.0.0:
     resolution: {integrity: sha512-vfD3pmTzGpufjScBh50YHKzEu2lxBWhVEHsNGoEXmCmn2hKGfeNLYMzCJpe8cD7gqX7TJluOVpBkAequ6dgMmA==}
@@ -6122,7 +6119,7 @@ snapshots:
     dependencies:
       '@types/react': 19.2.2
 
-  '@types/react-reconciler@0.34.0(@types/react@19.2.2)':
+  '@types/react-reconciler@0.33.1(@types/react@19.2.2)':
     dependencies:
       '@types/react': 19.2.2
 
@@ -7928,7 +7925,7 @@ snapshots:
       react: 19.2.0
       scheduler: 0.27.0
 
-  react-filerobot-image-editor@5.0.0-beta.159(@babel/core@7.28.4(supports-color@7.2.0))(@types/react-dom@19.2.1(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react-konva@19.3.2(@types/react@19.2.2)(konva@10.9.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)(styled-components@6.6.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)):
+  react-filerobot-image-editor@5.0.0-beta.159(@babel/core@7.28.4(supports-color@7.2.0))(@types/react-dom@19.2.1(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react-konva@19.2.7(@types/react@19.2.2)(konva@10.9.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)(styled-components@6.6.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)):
     dependencies:
       '@babel/runtime': 7.29.2
       '@scaleflex/icons': 3.0.0-beta.10(@types/react-dom@19.2.1(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -7938,8 +7935,8 @@ snapshots:
       prop-types: 15.7.2
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
-      react-konva: 19.3.2(@types/react@19.2.2)(konva@10.9.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      react-konva-utils: 1.1.0(konva@9.3.18)(react-dom@19.2.0(react@19.2.0))(react-konva@19.3.2(@types/react@19.2.2)(konva@10.9.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)
+      react-konva: 19.2.7(@types/react@19.2.2)(konva@10.9.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      react-konva-utils: 1.1.0(konva@9.3.18)(react-dom@19.2.0(react@19.2.0))(react-konva@19.2.7(@types/react@19.2.2)(konva@10.9.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)
       styled-components: 6.6.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
     transitivePeerDependencies:
       - '@babel/core'
@@ -7956,30 +7953,30 @@ snapshots:
 
   react-is@19.3.1: {}
 
-  react-konva-utils@1.1.0(konva@9.3.18)(react-dom@19.2.0(react@19.2.0))(react-konva@19.3.2(@types/react@19.2.2)(konva@10.9.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0):
+  react-konva-utils@1.1.0(konva@9.3.18)(react-dom@19.2.0(react@19.2.0))(react-konva@19.2.7(@types/react@19.2.2)(konva@10.9.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0):
     dependencies:
       konva: 9.3.18
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
-      react-konva: 19.3.2(@types/react@19.2.2)(konva@10.9.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      react-konva: 19.2.7(@types/react@19.2.2)(konva@10.9.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       use-image: 1.1.4(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
 
-  react-konva@19.3.2(@types/react@19.2.2)(konva@10.9.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+  react-konva@19.2.7(@types/react@19.2.2)(konva@10.9.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
     dependencies:
-      '@types/react-reconciler': 0.34.0(@types/react@19.2.2)
+      '@types/react-reconciler': 0.33.1(@types/react@19.2.2)
       its-fine: 2.1.1(@types/react@19.2.2)(react@19.2.0)
       konva: 10.9.1
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
-      react-reconciler: 0.34.0(react@19.2.0)
-      scheduler: 0.28.0
+      react-reconciler: 0.33.0(react@19.2.0)
+      scheduler: 0.27.0
     transitivePeerDependencies:
       - '@types/react'
 
-  react-reconciler@0.34.0(react@19.2.0):
+  react-reconciler@0.33.0(react@19.2.0):
     dependencies:
       react: 19.2.0
-      scheduler: 0.28.0
+      scheduler: 0.27.0
 
   react-refresh@0.17.0: {}
 
@@ -8179,8 +8176,6 @@ snapshots:
       postcss: 8.5.6
 
   scheduler@0.27.0: {}
-
-  scheduler@0.28.0: {}
 
   section-matter@1.0.0:
     dependencies:
