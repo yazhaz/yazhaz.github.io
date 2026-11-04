@@ -153,6 +153,7 @@ interface EditableTextProps {
   value: string;
   onChange: (val: string) => void;
   className?: string;
+  wrapperClassName?: string;
   isHighlighting?: boolean;
   tooltipText?: string;
   tooltipSide?: "left" | "right";
@@ -167,7 +168,7 @@ const sanitizeHTML = (html: string): string => {
     .replace(/\son\w+='[^']*'/gi, "");
 };
 
-function EditableText({ value, onChange, className = "", isHighlighting = false, tooltipText, tooltipSide = "left" }: EditableTextProps) {
+function EditableText({ value, onChange, className = "", wrapperClassName = "", isHighlighting = false, tooltipText, tooltipSide = "left" }: EditableTextProps) {
   const [editing, setEditing] = useState(false);
   const divRef = useRef<HTMLDivElement>(null);
   const localEditRef = useRef(false);
@@ -221,7 +222,7 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
   };
 
   return (
-    <div className={`relative group w-full block border border-transparent hover:border-red-600 rounded-none print:border-0 ${isHighlighting ? "" : "transition-colors duration-150"}`} style={isHighlighting ? { transition: 'none' } : undefined}
+    <div className={`relative group w-full block border border-transparent hover:border-red-600 rounded-none print:border-0 ${isHighlighting ? "" : "transition-colors duration-150"} ${wrapperClassName}`} style={isHighlighting ? { transition: 'none' } : undefined}
       onMouseEnter={() => {
         if (tooltipText) {
           setShowTooltip(true);
@@ -1637,11 +1638,11 @@ export default function A4Template() {
               isHighlighting={isHighlighting}
             />
 
-            <div className="flex-1 flex flex-col justify-between h-[60px] max-h-[60px] items-start">
+            <div className="flex-1 flex flex-col justify-start h-[60px] max-h-[60px] items-start">
               <EditableText
                 value={data.headerTitle}
                 onChange={(val) => setData((prev) => ({ ...prev, headerTitle: val }))}
-                className="text-[13.5px] font-bold text-black leading-[19px] w-full"
+                className="text-[15px] font-bold text-black leading-[18px] w-full"
                 isHighlighting={isHighlighting}
                 tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz."}
                 tooltipSide="left"
@@ -1649,12 +1650,13 @@ export default function A4Template() {
               <EditableText
                 value={data.headerSchool}
                 onChange={(val) => setData((prev) => ({ ...prev, headerSchool: val }))}
-                className="text-[12.5px] font-semibold text-black leading-[18px] w-full"
+                className="text-[15px] font-semibold text-black leading-[18px] w-full"
+                wrapperClassName="mt-0"
                 isHighlighting={isHighlighting}
                 tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz."}
                 tooltipSide="left"
               />
-              <div className="flex flex-row w-full cursor-default select-none text-[11px] leading-[15px] font-semibold text-black">
+              <div className="flex flex-row w-full cursor-default select-none text-[13px] leading-[16px] font-semibold text-black mt-auto">
                 <span className="w-[50%] border-r border-zinc-300 pr-2 cursor-default">
                   Ad Soyad:
                 </span>
