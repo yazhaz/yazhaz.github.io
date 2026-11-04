@@ -328,7 +328,7 @@ function EditableText({ value, onChange, className = "", wrapperClassName = "", 
 {tooltipText && showTooltip && (
         <div className={`editable-tooltip print:hidden absolute z-50 top-1/2 -translate-y-1/2 ${tooltipSide === "left" ? "right-full mr-2" : "left-full ml-2"} pointer-events-none flex ${tooltipSide === "left" ? "flex-row-reverse" : "flex-row"} items-center`}>
           <div className={`w-0 h-0 border-t-4 border-b-4 ${tooltipSide === "left" ? "border-l-4 border-r-0 border-t-transparent border-b-transparent border-l-red-600" : "border-r-4 border-l-0 border-t-transparent border-b-transparent border-r-red-600"}`} />
-          <div className={`bg-red-600 text-white text-xs px-3 py-[10px] text-left shadow-lg rounded-none whitespace-pre-line ${tooltipText && tooltipText.includes("CTRL") ? "min-w-[200px]" : ""}`}>
+          <div className={`bg-red-600 text-white text-xs px-3 py-[10px] text-left shadow-lg rounded-none ${tooltipText && tooltipText.includes("\n") ? "whitespace-pre-line min-w-[200px]" : "whitespace-nowrap"}`}>
             {tooltipText}
           </div>
         </div>
@@ -712,14 +712,14 @@ className="print:hidden absolute z-20 opacity-0 group-hover/block:opacity-100 tr
       </button>
 
       <div className="flex items-center gap-2">
-        <EditableText value={item.text} onChange={onTextChange} className="font-bold text-[13px] text-black" isHighlighting={isHighlighting} tooltipText={"Tıklayarak düzenleyebilirsiniz"} tooltipSide={columnSide === 'left' ? 'left' : 'right'} />
+        <EditableText value={item.text} onChange={onTextChange} className="font-bold text-[13px] text-black" isHighlighting={isHighlighting} tooltipText={"Tıklayarak düzenleyebilirsiniz."} tooltipSide={columnSide === 'left' ? 'left' : 'right'} />
         <div className="ml-auto shrink-0">
           <EditableText
             value={item.score ?? "Puanı :\u00A0\u00A0\u00A0\u00A0\u00A0"}
             onChange={onScoreChange}
             className="text-xs text-gray-500 font-semibold text-right whitespace-nowrap"
 isHighlighting={isHighlighting}
-            tooltipText={"Tıklayarak düzenleyebilirsiniz"}
+            tooltipText={"Tıklayarak düzenleyebilirsiniz."}
             tooltipSide={columnSide === 'left' ? 'left' : 'right'}
           />
         </div>
@@ -843,7 +843,7 @@ isHighlighting={isHighlighting}
             onChange={onContentChange}
             className="text-sm leading-relaxed"
             isHighlighting={isHighlighting}
-            tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz.\nMetni seç,\nCTRL+B = Kalın yazı\nCTRL+I = Yan yazı\nCTRL+M = Yazıyı küçült\nCTRL+L = Yazıyı büyüt\nCTRL+O = Normal yazı"}
+            tooltipText={"Tıklayarak düzenleyebilirsiniz.\nMetni seç,\nCTRL+B = Kalın yazı\nCTRL+I = Yan yazı\nCTRL+M = Yazıyı küçült\nCTRL+L = Yazıyı büyüt\nCTRL+O = Normal yazı"}
             tooltipSide={columnSide === 'left' ? 'left' : 'right'}
           />
         </div>
@@ -1644,7 +1644,7 @@ export default function A4Template() {
                 onChange={(val) => setData((prev) => ({ ...prev, headerTitle: val }))}
                 className="text-[15px] font-bold text-black leading-[18px] w-full"
                 isHighlighting={isHighlighting}
-                tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz."}
+                tooltipText={"Tıklayarak düzenleyebilirsiniz."}
                 tooltipSide="left"
               />
               <EditableText
@@ -1653,7 +1653,7 @@ export default function A4Template() {
                 className="text-[15px] font-semibold text-black leading-[18px] w-full"
                 wrapperClassName="mt-0"
                 isHighlighting={isHighlighting}
-                tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz."}
+                tooltipText={"Tıklayarak düzenleyebilirsiniz."}
                 tooltipSide="left"
               />
               <div className="flex flex-row w-full cursor-default select-none text-[13px] leading-[16px] font-semibold text-black mt-auto">

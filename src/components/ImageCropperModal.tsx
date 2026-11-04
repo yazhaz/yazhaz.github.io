@@ -52,7 +52,7 @@ export function ImageCropperModal({ open, imageSrc, onClose, onCropComplete }: I
           useBackendTranslations={false}
           disableSaveIfNoChanges={false}
           closeAfterSave={true}
-          defaultSavedImageQuality={0.95}
+          defaultSavedImageQuality={1}
           savingPixelRatio={2}
           previewPixelRatio={typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1}
           translations={{
