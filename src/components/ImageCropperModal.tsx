@@ -1,5 +1,6 @@
 import React from "react";
 import FilerobotImageEditor, { TABS, TOOLS } from "react-filerobot-image-editor";
+import { optimizeBase64Image } from "@/lib/image-utils";
 
 interface ImageCropperModalProps {
   open: boolean;
@@ -19,9 +20,10 @@ export function ImageCropperModal({ open, imageSrc, onClose, onCropComplete }: I
           onBeforeSave={() => false}
           defaultSavedImageName="soru"
           defaultSavedImageType="png"
-          onSave={(savedImageData: any) => {
-            const base64 = savedImageData.imageBase64 || savedImageData.imageCanvas?.toDataURL?.();
-            if (base64) {
+          onSave={async (savedImageData: any) => {
+            const rawBase64 = savedImageData.imageBase64 || savedImageData.imageCanvas?.toDataURL?.();
+            if (rawBase64) {
+              const base64 = await optimizeBase64Image(rawBase64);
               onCropComplete(
                 base64,
                 savedImageData.width || 342,

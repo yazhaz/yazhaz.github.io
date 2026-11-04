@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ImageCropperModal } from "./ImageCropperModal";
-import { performOCR } from "@/lib/image-utils";
+import { performOCR, optimizeImageFile } from "@/lib/image-utils";
 
 const STORAGE_KEY = "refine-template-v1";
 const THREE_DAYS = 3 * 24 * 60 * 60 * 1000;
@@ -480,16 +480,17 @@ function ImageUploader({ src, onChange, height, isHighlighting = false, onImageL
           type="file"
           accept="image/*"
           className="hidden"
-          onChange={(e) => {
+          onChange={async (e) => {
             const file = e.target.files?.[0];
             if (!file) return;
-            const reader = new FileReader();
-            reader.onload = () => {
-              setTempSrc(reader.result as string);
+            try {
+              const base64 = await optimizeImageFile(file);
+              setTempSrc(base64);
               setModalOpen(true);
-              if (inputRef.current) inputRef.current.value = "";
-            };
-            reader.readAsDataURL(file);
+            } catch (err) {
+              console.error("Resim yükleme hatası:", err);
+            }
+            if (inputRef.current) inputRef.current.value = "";
           }}
         />
       </div>
@@ -545,16 +546,17 @@ function CompactImageUploader({ onImageChange, isHighlighting = false, className
         accept="image/*"
         ref={inputRef}
         className="hidden"
-        onChange={(e) => {
+        onChange={async (e) => {
           const file = e.target.files?.[0];
           if (!file) return;
-          const reader = new FileReader();
-          reader.onload = () => {
-            setTempSrc(reader.result as string);
+          try {
+            const base64 = await optimizeImageFile(file);
+            setTempSrc(base64);
             setModalOpen(true);
-            if (inputRef.current) inputRef.current.value = "";
-          };
-          reader.readAsDataURL(file);
+          } catch (err) {
+            console.error("Resim yükleme hatası:", err);
+          }
+          if (inputRef.current) inputRef.current.value = "";
         }}
       />
 
@@ -760,15 +762,16 @@ isHighlighting={isHighlighting}
                   const input = document.createElement('input');
                   input.type = 'file';
                   input.accept = 'image/*';
-                  input.onchange = (e) => {
+                  input.onchange = async (e) => {
                     const file = (e.target as HTMLInputElement).files?.[0];
                     if (!file) return;
-                    const reader = new FileReader();
-                    reader.onload = () => {
-                      setTempImageSrc(reader.result as string);
+                    try {
+                      const base64 = await optimizeImageFile(file);
+                      setTempImageSrc(base64);
                       setCropModalOpen(true);
-                    };
-                    reader.readAsDataURL(file);
+                    } catch (err) {
+                      console.error("Resim yükleme hatası:", err);
+                    }
                   };
                   input.click();
                 }}
