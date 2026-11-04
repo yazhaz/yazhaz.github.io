@@ -40,6 +40,7 @@ export function ImageCropperModal({ open, imageSrc, onClose, onCropComplete }: I
           defaultSavedImageType="jpeg"
           defaultSavedImageQuality={0.95}
           savingPixelRatio={2}
+          previewPixelRatio={typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1}
           translations={{
             save: "Kırp ve Ekle",
             close: "Kapat",
