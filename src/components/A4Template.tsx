@@ -712,7 +712,7 @@ className="print:hidden absolute z-20 opacity-0 group-hover/block:opacity-100 tr
       </button>
 
       <div className="flex items-center gap-2">
-        <EditableText value={item.text} onChange={onTextChange} className="font-bold text-sm text-black" isHighlighting={isHighlighting} tooltipText={"Tıklayarak düzenleyebilirsiniz"} tooltipSide={columnSide === 'left' ? 'left' : 'right'} />
+        <EditableText value={item.text} onChange={onTextChange} className="font-bold text-[13px] text-black" isHighlighting={isHighlighting} tooltipText={"Tıklayarak düzenleyebilirsiniz"} tooltipSide={columnSide === 'left' ? 'left' : 'right'} />
         <div className="ml-auto shrink-0">
           <EditableText
             value={item.score ?? "Puanı :\u00A0\u00A0\u00A0\u00A0\u00A0"}
