@@ -12,7 +12,7 @@ export function ImageCropperModal({ open, imageSrc, onClose, onCropComplete }: I
   if (!open || !imageSrc) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-2 sm:p-4">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/75 backdrop-blur-xs p-2 sm:p-4">
       <div className="relative w-full max-w-5xl h-[88vh] bg-white shadow-2xl overflow-hidden flex flex-col border border-zinc-200">
         <FilerobotImageEditor
           source={imageSrc}
@@ -43,28 +43,66 @@ export function ImageCropperModal({ open, imageSrc, onClose, onCropComplete }: I
           previewPixelRatio={typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1}
           translations={{
             save: "Kırp ve Ekle",
-            close: "Kapat",
-            adjust: "Kırp & Döndür",
-            finetune: "Leke Temizle & Ayarla",
-            annotate: "Gizle & Çiz",
-            crop: "Kırp",
-            rotate: "Döndür",
+            cancel: "İptal",
+            apply: "Uygula",
+            resetOperations: "İşlemleri Sıfırla",
+            discardChanges: "Değişiklikleri Sil",
+            undoTitle: "Geri Al",
+            redoTitle: "İleri Al",
+            showImageTitle: "Orijinal Resmi Göster",
+            zoomInTitle: "Yakınlaştır",
+            zoomOutTitle: "Uzaklaştır",
+            toggleZoomMenuTitle: "Yakınlaştırma Menüsü",
+
+            // Sekmeler
+            adjustTab: "Ayarla",
+            finetuneTab: "İnce Ayar",
+            annotateTabLabel: "Açıklama Ekle",
+
+            // Ayarla Araçları
+            cropTool: "Kesme",
+            rotateTool: "Döndürme",
             flipX: "Yatay Çevir",
             flipY: "Dikey Çevir",
-            brightness: "Parlaklık",
-            contrast: "Kontrast",
-            threshold: "Leke Temizle (Eşikleme)",
-            rect: "Beyaz Kutu (Maskele)",
-            pen: "Daksil Kalemi",
-            arrow: "Ok",
-            line: "Çizgi",
-            ellipse: "Daire",
-            cancel: "İptal",
-            discardChanges: "Değişiklikleri iptal et",
-            apply: "Uygula",
-            reset: "Sıfırla",
-            undo: "Geri Al",
-            redo: "İleri Al",
+            unFlipX: "Yatay Çevir",
+            unFlipY: "Dikey Çevir",
+            original: "Orijinal",
+            custom: "Serbest",
+            square: "Kare",
+            landscape: "Yatay",
+            portrait: "Dikey",
+
+            // İnce Ayar Araçları
+            brightnessTool: "Parlaklık",
+            contrastTool: "Kontrast",
+            saturation: "Doygunluk",
+            blurTool: "Bulanıklık",
+            warmthTool: "Sıcaklık",
+            threshold: "Leke Temizleme / Eşikleme",
+            hsvTool: "HSV",
+            hue: "Ton",
+            value: "Değer",
+
+            // Açıklama Ekle Araçları
+            textTool: "Metin",
+            imageTool: "Görüntü",
+            rectangleTool: "Dikdörtgen",
+            ellipseTool: "Elips",
+            polygonTool: "Çokgen",
+            penTool: "Kalem",
+            lineTool: "Çizgi",
+            arrowTool: "Ok",
+
+            sides: "Kenar Sayısı",
+            cornerRadius: "Köşe Yuvarlama",
+            stroke: "Çizgi",
+            opacity: "Opaklık",
+            shadow: "Gölge",
+            horizontal: "Yatay",
+            vertical: "Dikey",
+            quality: "Kalite",
+            width: "Genişlik",
+            height: "Yükseklik",
           }}
         />
       </div>

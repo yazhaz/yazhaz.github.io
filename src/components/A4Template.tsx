@@ -746,7 +746,7 @@ isHighlighting={isHighlighting}
               </Button>
               <Button
                 size="sm"
-                className="bg-red-600 hover:bg-red-700 text-white h-6 rounded-none shadow-none gap-1 px-2.5 cursor-pointer justify-start upload-btn text-[10px]"
+                className="bg-red-600 hover:bg-red-700 text-white h-7 rounded-none shadow-none gap-1.5 px-3 cursor-pointer justify-start upload-btn"
                 onClick={() => {
                   const input = document.createElement('input');
                   input.type = 'file';
@@ -764,8 +764,8 @@ isHighlighting={isHighlighting}
                   input.click();
                 }}
               >
-                <Upload className="size-3" />
-                <span className="font-semibold text-[10px]">Tekrar soru yükle</span>
+                <Upload className="size-3.5" />
+                <span className="font-semibold text-xs">Tekrar soru yükle</span>
               </Button>
               {/* Metin bölümü ekle - sadece content boş veya undefined ise göster */}
               {(!item.content || !item.content.trim()) && (
