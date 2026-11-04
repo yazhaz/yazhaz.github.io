@@ -12,14 +12,18 @@ export function ImageCropperModal({ open, imageSrc, onClose, onCropComplete }: I
   if (!open || !imageSrc) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/75 backdrop-blur-xs p-2 sm:p-4">
+    <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/75 backdrop-blur-xs p-2 sm:p-4">
       <div className="relative w-full max-w-5xl h-[88vh] bg-white shadow-2xl overflow-hidden flex flex-col border border-zinc-200">
         <FilerobotImageEditor
           source={imageSrc}
-          onSave={(savedImageData) => {
-            if (savedImageData.imageBase64) {
+          onBeforeSave={() => false}
+          defaultSavedImageName="soru"
+          defaultSavedImageType="png"
+          onSave={(savedImageData: any) => {
+            const base64 = savedImageData.imageBase64 || savedImageData.imageCanvas?.toDataURL?.();
+            if (base64) {
               onCropComplete(
-                savedImageData.imageBase64,
+                base64,
                 savedImageData.width || 342,
                 savedImageData.height || 160
               );
@@ -28,8 +32,19 @@ export function ImageCropperModal({ open, imageSrc, onClose, onCropComplete }: I
           }}
           onClose={() => onClose()}
           annotationsCommon={{
+            fill: "#1e293b",
+            stroke: "#1e293b",
+          }}
+          Text={{
+            fill: "#1e293b",
+          }}
+          Rect={{
             fill: "#ffffff",
             stroke: "#ffffff",
+          }}
+          Pen={{
+            stroke: "#ffffff",
+            strokeWidth: 12,
           }}
           tabsIds={[TABS.ADJUST, TABS.FINETUNE, TABS.ANNOTATE]}
           defaultTabId={TABS.ADJUST}
@@ -37,7 +52,6 @@ export function ImageCropperModal({ open, imageSrc, onClose, onCropComplete }: I
           useBackendTranslations={false}
           disableSaveIfNoChanges={false}
           closeAfterSave={true}
-          defaultSavedImageType="jpeg"
           defaultSavedImageQuality={0.95}
           savingPixelRatio={2}
           previewPixelRatio={typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1}
@@ -57,7 +71,7 @@ export function ImageCropperModal({ open, imageSrc, onClose, onCropComplete }: I
             // Sekmeler
             adjustTab: "Ayarla",
             finetuneTab: "İnce Ayar",
-            annotateTabLabel: "Açıklama Ekle",
+            annotateTabLabel: "Açıklama",
 
             // Ayarla Araçları
             cropTool: "Kesme",
@@ -92,6 +106,7 @@ export function ImageCropperModal({ open, imageSrc, onClose, onCropComplete }: I
             penTool: "Kalem",
             lineTool: "Çizgi",
             arrowTool: "Ok",
+            colorPickerModalTitleLabel: "Renk Seç",
 
             sides: "Kenar Sayısı",
             cornerRadius: "Köşe Yuvarlama",

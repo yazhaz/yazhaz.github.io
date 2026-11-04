@@ -457,3 +457,23 @@ body.pdf-generating .cursor-ns-resize {
 .group\/upload:hover .group-hover\/upload\:animate-bounce-slow {
   animation: bounce-slow 3s infinite ease-in-out;
 }
+
+/* Filerobot / Scaleflex UI Modals & Popups (ColorPicker, Dropdowns, Tooltips) */
+.SfxModal-Wrapper,
+.Modal-Wrapper,
+[class*="Modal-Wrapper"],
+[class*="PopperWrapper"],
+[class*="Popper-Wrapper"],
+[class*="SfxPopper"],
+[data-testid="FIE-color-picker-modal"],
+.FIE_color-picker-modal,
+.SfxModal-root,
+.Modal-root {
+  z-index: 100000 !important;
+}
+
+.SfxModal-Container,
+.Modal-Container,
+[class*="Modal-Container"] {
+  z-index: 100001 !important;
+}
