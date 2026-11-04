@@ -272,7 +272,7 @@ function EditableText({ value, onChange, className = "", wrapperClassName = "", 
             e.preventDefault();
             document.execCommand("italic", false);
           }
-          if (e.ctrlKey && e.key.toLowerCase() === "m") {
+          if (e.ctrlKey && (e.key === "ö" || e.key === "Ö" || e.key.toLowerCase() === "ö")) {
             e.preventDefault();
             changeFontSize(-2);
           }
@@ -628,14 +628,23 @@ function BlockCard({
   const [showEditButton, setShowEditButton] = useState(true);
   const [showResizeTooltip, setShowResizeTooltip] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+  const resizeTooltipTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const triggerResizeTooltip = (duration = 5000) => {
+    setShowResizeTooltip(true);
+    if (resizeTooltipTimerRef.current) {
+      clearTimeout(resizeTooltipTimerRef.current);
+    }
+    resizeTooltipTimerRef.current = setTimeout(() => {
+      setShowResizeTooltip(false);
+      resizeTooltipTimerRef.current = null;
+    }, duration);
+  };
 
   const handleEditClick = () => {
     setShowEditButton(false);
     setShowMenu(true);
-    setShowResizeTooltip(true);
-    setTimeout(() => {
-      setShowResizeTooltip(false);
-    }, 3000);
+    triggerResizeTooltip(5000);
   };
 
   useEffect(() => {
@@ -806,7 +815,10 @@ isHighlighting={isHighlighting}
                 <span className="font-semibold text-xs">Resmi düzenle</span>
               </button>
             )}
-            <ImageUploader key={blockHeight} src={item.image} onChange={onImageChange} height={blockHeight} isHighlighting={isHighlighting} onImageLoadComplete={() => setShowMenu(true)} />
+            <ImageUploader key={blockHeight} src={item.image} onChange={onImageChange} height={blockHeight} isHighlighting={isHighlighting} onImageLoadComplete={() => {
+              setShowMenu(true);
+              triggerResizeTooltip(5000);
+            }} />
             {isOCRProcessing && (
               <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] flex flex-col items-center justify-center gap-2 z-10">
                 <Loader2 className="size-6 animate-spin text-slate-600" />
@@ -831,8 +843,11 @@ isHighlighting={isHighlighting}
        }
       }} 
       isHighlighting={isHighlighting} 
-      onImageLoadComplete={() => setShowMenu(true)} 
-     />
+      onImageLoadComplete={() => {
+         setShowMenu(true);
+         triggerResizeTooltip(5000);
+       }} 
+      />
    )}
 
       {/* Soru İçeriği (Yazı Altta) - Yazıcı/PDF'de sadece metin varsa göster */}
@@ -843,7 +858,7 @@ isHighlighting={isHighlighting}
             onChange={onContentChange}
             className="text-sm leading-relaxed"
             isHighlighting={isHighlighting}
-            tooltipText={"Tıklayarak düzenleyebilirsiniz.\nMetni seç,\nCTRL+B = Kalın yazı\nCTRL+I = Yan yazı\nCTRL+M = Yazıyı küçült\nCTRL+L = Yazıyı büyüt\nCTRL+O = Normal yazı"}
+            tooltipText={"Tıklayarak düzenleyebilirsiniz.\nMetni seç,\nCTRL+B = Kalın yazı\nCTRL+I = Yan yazı\nCTRL+Ö = Yazıyı küçült\nCTRL+L = Yazıyı büyüt\nCTRL+O = Normal yazı"}
             tooltipSide={columnSide === 'left' ? 'left' : 'right'}
           />
         </div>
@@ -890,6 +905,7 @@ isHighlighting={isHighlighting}
           setBlockHeight(finalHeight);
           onHeightChange(finalHeight);
           setCropModalOpen(false);
+          triggerResizeTooltip(5000);
         }}
       />
     </div>
