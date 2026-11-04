@@ -365,7 +365,7 @@ function LogoUploader({ src, onChange, isHighlighting = false }: LogoUploaderPro
 
     const img = new Image();
     img.onload = () => {
-      if (img.width === 80 && img.height === 80) {
+      if ((img.width === 60 && img.height === 60) || (img.width === 80 && img.height === 80) || (img.width === img.height && img.width > 0)) {
         const reader = new FileReader();
         reader.onload = (ev) => {
           onChange(ev.target?.result as string);
@@ -396,7 +396,7 @@ function LogoUploader({ src, onChange, isHighlighting = false }: LogoUploaderPro
 
   return (
     <div 
-      className={`w-20 h-20 flex-shrink-0 flex items-center justify-center relative group/logo cursor-pointer ${isHighlighting ? "highlight-active" : ""}`}
+      className={`w-[60px] h-[60px] flex-shrink-0 flex items-center justify-center relative group/logo cursor-pointer ${isHighlighting ? "highlight-active" : ""}`}
       style={isHighlighting ? { transition: 'none' } : undefined}
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
@@ -412,10 +412,10 @@ function LogoUploader({ src, onChange, isHighlighting = false }: LogoUploaderPro
       {src && (
         <button
           onClick={handleReset}
-          className={`print:hidden absolute top-0 left-0 z-30 opacity-0 group-hover/logo:opacity-100 flex items-center justify-center gap-1 bg-red-600 hover:bg-red-700 text-white h-5 text-xs cursor-pointer w-full${isHighlighting ? "" : " transition-opacity"}`}
+          className={`print:hidden absolute top-0 left-0 z-30 opacity-0 group-hover/logo:opacity-100 flex items-center justify-center gap-1 bg-red-600 hover:bg-red-700 text-white h-4 text-[10px] cursor-pointer w-full${isHighlighting ? "" : " transition-opacity"}`}
           style={isHighlighting ? { transition: 'none' } : undefined}
         >
-          <Undo2 className="size-3 text-white font-bold" style={{ filter: "drop-shadow(0 0 1px rgba(255,255,255,0.8))" }} />
+          <Undo2 className="size-2.5 text-white font-bold" style={{ filter: "drop-shadow(0 0 1px rgba(255,255,255,0.8))" }} />
           <span className="whitespace-nowrap">Kaldır</span>
         </button>
       )}
@@ -433,7 +433,7 @@ function LogoUploader({ src, onChange, isHighlighting = false }: LogoUploaderPro
         <div className="print:hidden absolute z-50 top-full left-1/2 -translate-x-1/2 mt-2 pointer-events-none flex flex-col items-center">
           <div className="w-0 h-0 border-l-4 border-r-4 border-b-4 border-l-transparent border-r-transparent border-b-red-600 shadow-sm" />
           <div className="bg-red-600 text-white text-xs px-3 py-[10px] text-center whitespace-nowrap shadow-lg rounded-none">
-            Tıklayarak 80x80 px<br />logo yükleyebilirsiniz
+            Tıklayarak 60x60 px<br />logo yükleyebilirsiniz
           </div>
         </div>
       )}
@@ -443,7 +443,7 @@ function LogoUploader({ src, onChange, isHighlighting = false }: LogoUploaderPro
         <div className="print:hidden absolute z-50 top-full left-1/2 -translate-x-1/2 mt-2 pointer-events-none flex flex-col items-center">
           <div className="w-0 h-0 border-l-4 border-r-4 border-b-4 border-l-transparent border-r-transparent border-b-red-600 shadow-sm" />
           <div className="bg-red-600 text-white text-xs px-3 py-[10px] text-center whitespace-nowrap shadow-lg rounded-none">
-            Lütfen 80x80 px<br />PNG veya JPG yükleyiniz
+            Lütfen 60x60 px<br />PNG veya JPG yükleyiniz
           </div>
         </div>
       )}
@@ -1630,18 +1630,18 @@ export default function A4Template() {
             flexDirection: "column",
           }}>
           {/* Title */}
-          <div className="page-header border-b border-zinc-200 pb-4 mb-6 flex flex-row gap-4 items-start">
+          <div className="page-header -mt-2 border-b border-zinc-200 pb-2 mb-3 flex flex-row gap-3.5 items-center">
             <LogoUploader
               src={data.headerLogo}
               onChange={(val) => setData((prev) => ({ ...prev, headerLogo: val }))}
               isHighlighting={isHighlighting}
             />
 
-            <div className="flex-1 flex flex-col items-start gap-1">
-<EditableText
+            <div className="flex-1 flex flex-col justify-between h-[60px] max-h-[60px] items-start">
+              <EditableText
                 value={data.headerTitle}
                 onChange={(val) => setData((prev) => ({ ...prev, headerTitle: val }))}
-                className="text-xl font-bold text-black leading-tight w-full"
+                className="text-[13.5px] font-bold text-black leading-[19px] w-full"
                 isHighlighting={isHighlighting}
                 tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz."}
                 tooltipSide="left"
@@ -1649,19 +1649,19 @@ export default function A4Template() {
               <EditableText
                 value={data.headerSchool}
                 onChange={(val) => setData((prev) => ({ ...prev, headerSchool: val }))}
-                className="text-xl font-semibold text-black leading-tight w-full"
+                className="text-[12.5px] font-semibold text-black leading-[18px] w-full"
                 isHighlighting={isHighlighting}
                 tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz."}
                 tooltipSide="left"
               />
-              <div className="flex flex-row w-full mt-1">
-                <span className="w-[50%] text-base font-semibold text-black border-r border-zinc-300 pr-2">
+              <div className="flex flex-row w-full cursor-default select-none text-[11px] leading-[15px] font-semibold text-black">
+                <span className="w-[50%] border-r border-zinc-300 pr-2 cursor-default">
                   Ad Soyad:
                 </span>
-                <span className="w-[30%] text-base font-semibold text-black border-r border-zinc-300 px-2">
+                <span className="w-[30%] border-r border-zinc-300 px-2 cursor-default">
                   Öğrenci No:
                 </span>
-                <span className="w-[20%] text-base font-semibold text-black pl-2">Sınıfı:</span>
+                <span className="w-[20%] pl-2 cursor-default">Sınıfı:</span>
               </div>
             </div>
           </div>
