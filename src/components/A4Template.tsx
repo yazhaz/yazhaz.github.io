@@ -532,10 +532,10 @@ function CompactImageUploader({ onImageChange, isHighlighting = false, className
       >
         <Button
           size="sm"
-          className={`${UPLOAD_BTN_BG} ${UPLOAD_BTN_HOVER} text-white border-transparent cursor-pointer rounded-none gap-2 px-6 h-10 shadow-sm opacity-100${isHighlighting ? "" : " transition-colors duration-150"} upload-btn`}
+          className={`${UPLOAD_BTN_BG} ${UPLOAD_BTN_HOVER} text-white border-transparent cursor-pointer rounded-none gap-1.5 px-3.5 h-8 text-xs font-medium shadow-sm opacity-100${isHighlighting ? "" : " transition-colors duration-150"} upload-btn`}
           style={isHighlighting ? { transition: 'none' } : undefined}
         >
-          <Upload className="size-4" />
+          <Upload className="size-3.5" />
           Soru yükle
         </Button>
       </div>
@@ -746,7 +746,7 @@ isHighlighting={isHighlighting}
               </Button>
               <Button
                 size="sm"
-                className="bg-red-600 hover:bg-red-700 text-white h-7 rounded-none shadow-none gap-1.5 px-3 cursor-pointer justify-start upload-btn"
+                className="bg-red-600 hover:bg-red-700 text-white h-6 rounded-none shadow-none gap-1 px-2.5 cursor-pointer justify-start upload-btn text-[10px]"
                 onClick={() => {
                   const input = document.createElement('input');
                   input.type = 'file';
@@ -764,8 +764,8 @@ isHighlighting={isHighlighting}
                   input.click();
                 }}
               >
-                <Upload className="size-3.5" />
-                <span className="font-semibold text-xs">Tekrar soru yükle</span>
+                <Upload className="size-3" />
+                <span className="font-semibold text-[10px]">Tekrar soru yükle</span>
               </Button>
               {/* Metin bölümü ekle - sadece content boş veya undefined ise göster */}
               {(!item.content || !item.content.trim()) && (
