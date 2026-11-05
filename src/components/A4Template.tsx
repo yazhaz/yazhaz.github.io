@@ -1604,12 +1604,19 @@ export default function A4Template() {
   };
 
   useEffect(() => {
+    document.documentElement.style.setProperty("--page-padding-v", `${pagePaddingVertical}mm`);
+    window.localStorage.setItem("page-padding-vertical", pagePaddingVertical.toString());
+  }, [pagePaddingVertical]);
+
+  useEffect(() => {
+    document.documentElement.style.setProperty("--page-padding-h", `${pagePadding}mm`);
     window.localStorage.setItem("page-padding", pagePadding.toString());
   }, [pagePadding]);
 
   useEffect(() => {
-    window.localStorage.setItem("page-padding-vertical", pagePaddingVertical.toString());
-  }, [pagePaddingVertical]);
+    document.documentElement.style.setProperty("--page-padding-v", `${pagePaddingVertical}mm`);
+    document.documentElement.style.setProperty("--page-padding-h", `${pagePadding}mm`);
+  }, []);
 
   return (
     <div className={`screen-wrapper min-h-screen ${SCREEN_CANVAS_BG} font-sans flex flex-col items-center py-10 px-4 ${previewMode ? "preview-mode" : ""}`}>
@@ -1632,7 +1639,13 @@ export default function A4Template() {
       )}
 
       {/* Pages container */}
-      <div className="a4-print-area flex flex-col gap-6 relative">
+      <div
+        className="a4-print-area flex flex-col gap-6 relative"
+        style={{
+          '--page-padding-v': `${pagePaddingVertical}mm`,
+          '--page-padding-h': `${pagePadding}mm`,
+        } as React.CSSProperties}
+      >
         {/* Preview Mode Overlay - hover ve düzenlemeyi engellemek için */}
         {previewMode && (
           <div className="absolute inset-0 z-50 pointer-events-auto cursor-default" title="" />
@@ -1650,7 +1663,7 @@ export default function A4Template() {
             flexDirection: "column",
           }}>
           {/* Title */}
-          <div className="page-header -mt-2 border-b border-zinc-200 pb-2 mb-3 flex flex-row gap-3.5 items-center">
+          <div className="page-header pt-2 border-b border-zinc-200 pb-2 mb-3 flex flex-row gap-3.5 items-center">
             <LogoUploader
               src={data.headerLogo}
               onChange={(val) => setData((prev) => ({ ...prev, headerLogo: val }))}
@@ -1749,6 +1762,7 @@ export default function A4Template() {
           }}>
           {/* 2-column grid */}
           <div
+            className="pt-2"
             style={{
               display: "flex",
               flexDirection: "row",
