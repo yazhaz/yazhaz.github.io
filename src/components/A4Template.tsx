@@ -13,6 +13,8 @@ import { performOCR, optimizeImageFile } from "@/lib/image-utils";
 
 const STORAGE_KEY = "refine-template-v1";
 const THREE_DAYS = 3 * 24 * 60 * 60 * 1000;
+const THREE_MONTHS = 90 * 24 * 60 * 60 * 1000; // 3 aylık (90 gün) bekleme süresi
+const STORAGE_DOWNLOAD_CARD_KEY = "hide-download-promo-card";
 
 /** Dış ekran zemini */
 const SCREEN_CANVAS_BG = "bg-slate-800";
@@ -1232,6 +1234,7 @@ export default function A4Template() {
   const [a4MaxImageHeight, setA4MaxImageHeight] = useState<number>(560);
   const [answerKeyModalOpen, setAnswerKeyModalOpen] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
+  const [showDownloadCard, setShowDownloadCard] = useState(false);
   const [showWarningModal, setShowWarningModal] = useState(false);
   const [previewMode, setPreviewMode] = useState(false);
   const [overflowPage1, setOverflowPage1] = useState(false);
@@ -1255,6 +1258,27 @@ export default function A4Template() {
         setShowWarningModal(true);
       }, 15000);
     }
+  };
+
+  useEffect(() => {
+    const hideDownloadTime = localStorage.getItem(STORAGE_DOWNLOAD_CARD_KEY);
+    if (!hideDownloadTime) {
+      setShowDownloadCard(true);
+    } else {
+      const timestamp = parseInt(hideDownloadTime, 10);
+      const now = Date.now();
+      if (!isNaN(timestamp) && now - timestamp > THREE_MONTHS) {
+        setShowDownloadCard(true);
+        localStorage.removeItem(STORAGE_DOWNLOAD_CARD_KEY);
+      } else {
+        setShowDownloadCard(false);
+      }
+    }
+  }, []);
+
+  const handleCloseDownloadCard = () => {
+    setShowDownloadCard(false);
+    localStorage.setItem(STORAGE_DOWNLOAD_CARD_KEY, Date.now().toString());
   };
 
   useEffect(() => {
@@ -1858,9 +1882,37 @@ export default function A4Template() {
         onConfirm={handleAddAnswerKey}
       />
 
-      {/* ── Floating Action Menu ── */}
+      {/* ── Floating Action Menu & Download Promo Card ── */}
       <TooltipProvider>
-        <div className="floating-action-menu fixed bottom-6 right-6 z-50 grid grid-cols-2 gap-2 bg-white/90 backdrop-blur-sm border border-zinc-200 rounded-none shadow-lg p-3 print:hidden min-w-[220px]">
+        <div className={`fixed bottom-6 right-6 z-50 flex flex-col items-stretch gap-[30px] print:hidden ${previewMode ? "hidden" : ""}`}>
+          {/* İndirme Talimatı Kartı (30px yukarısında, menü kartı genişliğinde) */}
+          {showDownloadCard && (
+            <div className="download-promo-card relative bg-white/95 backdrop-blur-sm border border-zinc-200 rounded-none shadow-lg p-3 pr-7 text-xs text-zinc-700 leading-relaxed animate-fade-in">
+              <button
+                onClick={handleCloseDownloadCard}
+                className="absolute top-2 right-2 text-zinc-400 hover:text-zinc-700 cursor-pointer p-0.5 transition-colors"
+                title="Kapat"
+                aria-label="Kapat"
+              >
+                <X className="size-3.5" />
+              </button>
+              <p>
+                YAZHAZ web uygulamasını bilgisayarınıza indirebilmek için{" "}
+                <a
+                  href="https://www.instagram.com/p/DgD918KMYua/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-blue-600 hover:text-blue-800 underline underline-offset-2"
+                >
+                  bu adresteki
+                </a>{" "}
+                talimatları takip edin
+              </p>
+            </div>
+          )}
+
+          {/* Menü Kartı */}
+          <div className="floating-action-menu grid grid-cols-2 gap-2 bg-white/90 backdrop-blur-sm border border-zinc-200 rounded-none shadow-lg p-3 min-w-[220px]">
           {/* 01 - Yatay ölçeklendirme */}
           <Button onClick={handleTogglePadding} variant="outline" className="gap-2 cursor-pointer justify-start rounded-none" title="Yatay daralt/genişlet">
             <MoveHorizontal className="size-4 shrink-0" />
@@ -1937,6 +1989,7 @@ export default function A4Template() {
             <RotateCcw className="size-4 shrink-0" />
             Değişiklikleri sıfırla
           </Button>
+          </div>
         </div>
       </TooltipProvider>
 

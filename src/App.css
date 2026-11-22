@@ -438,6 +438,7 @@ body.pdf-generating .cursor-ns-resize {
 }
 
 .preview-mode .floating-action-menu,
+.preview-mode .download-promo-card,
 .preview-mode .fixed.top-6.right-6 {
   display: none !important;
 }
