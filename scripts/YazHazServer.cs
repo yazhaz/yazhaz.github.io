@@ -5,12 +5,16 @@ using System.Net.Sockets;
 using System.Diagnostics;
 using System.Threading;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 class YazHazServer
 {
     private static HttpListener listener;
     private static string baseDir;
     private static int port = 5050;
+
+    [DllImport("user32.dll")]
+    private static extern int GetSystemMetrics(int nIndex);
 
     private static readonly Dictionary<string, string> mimeTypes = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
     {
@@ -80,7 +84,7 @@ class YazHazServer
         // Arka planda istekleri dinle
         ThreadPool.QueueUserWorkItem(ListenLoop);
 
-        // Tarayicida veya Edge App modunda ac
+        // Tarayicida veya Edge App modunda genis pencereyle ac
         LaunchBrowser(url);
 
         // Pencere acik kalsin
@@ -119,8 +123,28 @@ class YazHazServer
 
             if (File.Exists(edgePath))
             {
+                // Ekran cozunurlugune gore %25-30 daha genis yatay boyut
+                int screenW = GetSystemMetrics(0); // SM_CXSCREEN
+                int screenH = GetSystemMetrics(1); // SM_CYSCREEN
+                if (screenW <= 0) screenW = 1920;
+                if (screenH <= 0) screenH = 1080;
+
+                // Standart ~1024-1050px pencereye kiyasla %25-30 daha genis (1380-1440px)
+                int targetW = (int)(screenW * 0.74);
+                if (targetW < 1200 && screenW >= 1280) targetW = 1200;
+                if (targetW > 1440) targetW = 1440;
+
+                int targetH = (int)(screenH * 0.88);
+                if (targetH > 940) targetH = 940;
+
+                int posX = Math.Max(10, (screenW - targetW) / 2);
+                int posY = Math.Max(10, (screenH - targetH) / 2);
+
                 string appData = Path.Combine(Path.GetTempPath(), "YazHaz_EdgeProfile");
-                ProcessStartInfo psi = new ProcessStartInfo(edgePath, string.Format("--app=\"{0}\" --user-data-dir=\"{1}\"", url, appData));
+                string args = string.Format("--app=\"{0}\" --window-size={1},{2} --window-position={3},{4} --user-data-dir=\"{5}\"",
+                    url, targetW, targetH, posX, posY, appData);
+
+                ProcessStartInfo psi = new ProcessStartInfo(edgePath, args);
                 psi.UseShellExecute = false;
                 Process.Start(psi);
                 return;
