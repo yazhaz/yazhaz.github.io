@@ -1884,10 +1884,10 @@ export default function A4Template() {
 
       {/* ── Floating Action Menu & Download Promo Card ── */}
       <TooltipProvider>
-        <div className={`fixed bottom-6 right-6 z-50 flex flex-col items-stretch gap-[30px] print:hidden ${previewMode ? "hidden" : ""}`}>
+        <div className={`fixed bottom-6 right-6 z-50 flex flex-col items-stretch gap-[30px] print:hidden w-[220px] ${previewMode ? "hidden" : ""}`}>
           {/* İndirme Talimatı Kartı (30px yukarısında, menü kartı genişliğinde) */}
           {showDownloadCard && (
-            <div className="download-promo-card relative bg-white/95 backdrop-blur-sm border border-zinc-200 rounded-none shadow-lg p-3 pr-7 text-xs text-zinc-700 leading-relaxed animate-fade-in">
+            <div className="download-promo-card w-[220px] relative bg-white/95 backdrop-blur-sm border border-zinc-200 rounded-none shadow-lg p-3 pr-7 text-xs text-zinc-700 leading-relaxed animate-fade-in">
               <button
                 onClick={handleCloseDownloadCard}
                 className="absolute top-2 right-2 text-zinc-400 hover:text-zinc-700 cursor-pointer p-0.5 transition-colors"
