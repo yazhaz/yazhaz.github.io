@@ -1876,7 +1876,7 @@ export default function A4Template() {
 
       {/* ── Welcome Banner ── */}
       {showWelcome && (
-        <div className="fixed top-6 right-6 z-50 flex flex-col gap-2 bg-white border border-zinc-200 shadow-xl p-4 print:hidden w-[220px]">
+        <div className="fixed top-6 right-6 z-50 flex flex-col gap-2 bg-white border border-zinc-200 shadow-xl p-4 print:hidden w-[220px] animate-fade-in">
           <div className="flex justify-between items-start mb-1">
             <h3 className="font-semibold text-sm text-zinc-800">Bilgilendirme</h3>
             <button 
@@ -1929,10 +1929,6 @@ export default function A4Template() {
                     <p style={{ lineHeight: "16px" }}>
                       Artık e-Okul'da yazılı notlarını tek tek klavyeden girmekle uğraşmayın — konuşun, eklenti saniyeler içinde otomatik yazsın! ⏱️💻
                     </p>
-                    <div className="flex flex-col gap-0.5" style={{ lineHeight: "16px" }}>
-                      <span>✅ Kurulumu ücretsiz Chrome eklentisi</span>
-                      <span>✅ Hızlı, pratik ve hatasız not girişi</span>
-                    </div>
                     <p className="pt-0.5" style={{ lineHeight: "16px" }}>
                       👉 Detaylar ve kurulum için{" "}
                       <a
@@ -1964,31 +1960,26 @@ export default function A4Template() {
                   >
                     <X className="size-3.5" />
                   </button>
-                  <div className="flex flex-col gap-1.5" style={{ lineHeight: "16px" }}>
-                    <p className="font-bold text-slate-800" style={{ lineHeight: "16px" }}>
-                      💻✨ YazHaz Bilgisayarınızda!
-                    </p>
-                    <p style={{ lineHeight: "16px" }}>
-                      YAZHAZ web uygulamasını internetiniz kapalıyken bile kullanabilmek ve bilgisayarınıza indirebilmek için{" "}
-                      <a
-                        href="https://www.instagram.com/p/DgD918KMYua/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-bold underline underline-offset-2 hover:opacity-80 transition-opacity"
-                        style={{ color: "oklch(57.7% 0.245 27.325)" }}
-                      >
-                        bu adresteki
-                      </a>{" "}
-                      talimatları takip edin 📥⚡
-                    </p>
-                  </div>
+                  <p style={{ lineHeight: "16px" }}>
+                    YAZHAZ web uygulamasını internetiniz kapalıyken bile kullanabilmek ve bilgisayarınıza indirebilmek için{" "}
+                    <a
+                      href="https://www.instagram.com/p/DgD918KMYua/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-bold underline underline-offset-2 hover:opacity-80 transition-opacity"
+                      style={{ color: "oklch(57.7% 0.245 27.325)" }}
+                    >
+                      bu adresteki
+                    </a>{" "}
+                    talimatları takip edin !
+                  </p>
                 </div>
               )}
             </div>
           )}
 
           {/* Menü Kartı */}
-          <div className="floating-action-menu grid grid-cols-2 gap-2 bg-white/90 backdrop-blur-sm border border-zinc-200 rounded-none shadow-lg p-3 min-w-[220px]">
+          <div className="floating-action-menu grid grid-cols-2 gap-2 bg-white/90 backdrop-blur-sm border border-zinc-200 rounded-none shadow-lg p-3 min-w-[220px] animate-fade-in">
           {/* 01 - Yatay ölçeklendirme */}
           <Button onClick={handleTogglePadding} variant="outline" className="gap-2 cursor-pointer justify-start rounded-none" title="Yatay daralt/genişlet">
             <MoveHorizontal className="size-4 shrink-0" />
