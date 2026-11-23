@@ -1890,7 +1890,7 @@ export default function A4Template() {
               <X className="size-4" />
             </button>
           </div>
-          <p className="text-sm text-zinc-600 leading-relaxed text-left">
+          <p className="text-zinc-600 leading-relaxed text-left" style={{ fontSize: "0.8rem" }}>
             Yazılı sınav hazırlama aracımızda bazı başlıklar ve bölümler isteğinize göre düzenlenebilir özelliktedir. Üye olmadan <strong>resim yükleme, resim kırma, resimlerdeki soruları otomatik olarak yazıya dönüştüme</strong>, pdf alma işlemleri yapabilirsiniz.
           </p>
         </div>
