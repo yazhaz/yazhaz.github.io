@@ -15,6 +15,7 @@ const STORAGE_KEY = "refine-template-v1";
 const THREE_DAYS = 3 * 24 * 60 * 60 * 1000;
 const THREE_MONTHS = 90 * 24 * 60 * 60 * 1000; // 3 aylık (90 gün) bekleme süresi
 const STORAGE_DOWNLOAD_CARD_KEY = "hide-download-promo-card";
+const STORAGE_EOKUL_CARD_KEY = "hide-eokul-promo-card";
 
 /** Dış ekran zemini */
 const SCREEN_CANVAS_BG = "bg-slate-800";
@@ -1235,6 +1236,7 @@ export default function A4Template() {
   const [answerKeyModalOpen, setAnswerKeyModalOpen] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
   const [showDownloadCard, setShowDownloadCard] = useState(false);
+  const [showEokulCard, setShowEokulCard] = useState(false);
   const [showWarningModal, setShowWarningModal] = useState(false);
   const [previewMode, setPreviewMode] = useState(false);
   const [overflowPage1, setOverflowPage1] = useState(false);
@@ -1274,11 +1276,30 @@ export default function A4Template() {
         setShowDownloadCard(false);
       }
     }
+
+    const hideEokulTime = localStorage.getItem(STORAGE_EOKUL_CARD_KEY);
+    if (!hideEokulTime) {
+      setShowEokulCard(true);
+    } else {
+      const timestamp = parseInt(hideEokulTime, 10);
+      const now = Date.now();
+      if (!isNaN(timestamp) && now - timestamp > THREE_MONTHS) {
+        setShowEokulCard(true);
+        localStorage.removeItem(STORAGE_EOKUL_CARD_KEY);
+      } else {
+        setShowEokulCard(false);
+      }
+    }
   }, []);
 
   const handleCloseDownloadCard = () => {
     setShowDownloadCard(false);
     localStorage.setItem(STORAGE_DOWNLOAD_CARD_KEY, Date.now().toString());
+  };
+
+  const handleCloseEokulCard = () => {
+    setShowEokulCard(false);
+    localStorage.setItem(STORAGE_EOKUL_CARD_KEY, Date.now().toString());
   };
 
   useEffect(() => {
@@ -1882,32 +1903,87 @@ export default function A4Template() {
         onConfirm={handleAddAnswerKey}
       />
 
-      {/* ── Floating Action Menu & Download Promo Card ── */}
+      {/* ── Floating Action Menu & Promo Cards ── */}
       <TooltipProvider>
-        <div className={`fixed bottom-6 right-6 z-50 flex flex-col items-stretch gap-[30px] print:hidden w-[220px] ${previewMode ? "hidden" : ""}`}>
-          {/* İndirme Talimatı Kartı (30px yukarısında, menü kartı genişliğinde) */}
-          {showDownloadCard && (
-            <div className="download-promo-card w-[220px] relative bg-white/95 backdrop-blur-sm border border-zinc-200 rounded-none shadow-lg p-3 pr-7 text-xs text-zinc-700 leading-relaxed animate-fade-in">
-              <button
-                onClick={handleCloseDownloadCard}
-                className="absolute top-2 right-2 text-zinc-400 hover:text-zinc-700 cursor-pointer p-0.5 transition-colors"
-                title="Kapat"
-                aria-label="Kapat"
-              >
-                <X className="size-3.5" />
-              </button>
-              <p>
-                YAZHAZ web uygulamasını bilgisayarınıza indirebilmek için{" "}
-                <a
-                  href="https://www.instagram.com/p/DgD918KMYua/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-semibold text-blue-600 hover:text-blue-800 underline underline-offset-2"
+        <div className={`fixed bottom-6 right-6 z-50 flex flex-col items-stretch print:hidden w-[220px] ${previewMode ? "hidden" : ""}`}>
+          {(showEokulCard || showDownloadCard) && (
+            <div className="flex flex-col items-stretch gap-3 mb-[30px]">
+              {/* 01 - e-Okul Sesle Not Girişi Kartı */}
+              {showEokulCard && (
+                <div
+                  className="download-promo-card promo-card w-[220px] relative bg-white/95 backdrop-blur-sm border border-zinc-200 rounded-none shadow-lg p-3 pr-7 text-xs text-zinc-700 animate-fade-in"
+                  style={{ lineHeight: "16px" }}
                 >
-                  bu adresteki
-                </a>{" "}
-                talimatları takip edin
-              </p>
+                  <button
+                    onClick={handleCloseEokulCard}
+                    className="absolute top-2 right-2 text-zinc-400 hover:text-zinc-700 cursor-pointer p-0.5 transition-colors"
+                    title="Kapat"
+                    aria-label="Kapat"
+                  >
+                    <X className="size-3.5" />
+                  </button>
+                  <div className="flex flex-col gap-1.5" style={{ lineHeight: "16px" }}>
+                    <p className="font-bold text-slate-800" style={{ lineHeight: "16px" }}>
+                      🎙️✨ Öğretmenlerimize büyük kolaylık!
+                    </p>
+                    <p style={{ lineHeight: "16px" }}>
+                      Artık e-Okul'da yazılı notlarını tek tek klavyeden girmekle uğraşmayın — konuşun, eklenti saniyeler içinde otomatik yazsın! ⏱️💻
+                    </p>
+                    <div className="flex flex-col gap-0.5" style={{ lineHeight: "16px" }}>
+                      <span>✅ Kurulumu ücretsiz Chrome eklentisi</span>
+                      <span>✅ Hızlı, pratik ve hatasız not girişi</span>
+                    </div>
+                    <p className="pt-0.5" style={{ lineHeight: "16px" }}>
+                      👉 Detaylar ve kurulum için{" "}
+                      <a
+                        href="https://www.instagram.com/p/DgGMVl8spkp/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-bold underline underline-offset-2 hover:opacity-80 transition-opacity"
+                        style={{ color: "oklch(57.7% 0.245 27.325)" }}
+                      >
+                        bu adresteki
+                      </a>{" "}
+                      talimatları takip edin
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* 02 - YazHaz Çevrimdışı İndirme Kartı */}
+              {showDownloadCard && (
+                <div
+                  className="download-promo-card promo-card w-[220px] relative bg-white/95 backdrop-blur-sm border border-zinc-200 rounded-none shadow-lg p-3 pr-7 text-xs text-zinc-700 animate-fade-in"
+                  style={{ lineHeight: "16px" }}
+                >
+                  <button
+                    onClick={handleCloseDownloadCard}
+                    className="absolute top-2 right-2 text-zinc-400 hover:text-zinc-700 cursor-pointer p-0.5 transition-colors"
+                    title="Kapat"
+                    aria-label="Kapat"
+                  >
+                    <X className="size-3.5" />
+                  </button>
+                  <div className="flex flex-col gap-1.5" style={{ lineHeight: "16px" }}>
+                    <p className="font-bold text-slate-800" style={{ lineHeight: "16px" }}>
+                      💻✨ YazHaz Bilgisayarınızda!
+                    </p>
+                    <p style={{ lineHeight: "16px" }}>
+                      YAZHAZ web uygulamasını internetiniz kapalıyken bile kullanabilmek ve bilgisayarınıza indirebilmek için{" "}
+                      <a
+                        href="https://www.instagram.com/p/DgD918KMYua/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-bold underline underline-offset-2 hover:opacity-80 transition-opacity"
+                        style={{ color: "oklch(57.7% 0.245 27.325)" }}
+                      >
+                        bu adresteki
+                      </a>{" "}
+                      talimatları takip edin 📥⚡
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
